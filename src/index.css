@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+:root {
+  /* Superficies */
+  --bg-app-space: #050014;
+  --bg-app-space-alt: #07011e;
+  --bg-modal-overlay: rgba(5, 0, 20, 0.85);
+  --card-surface-dark: rgba(26, 9, 72, 0.9);
+  --row-surface: #16083d;
+  --row-separator: #2e146d;
+  --pill-dark: #0a031f;
+
+  /* Bordes / stroke */
+  --stroke-neon-cyan: #00e5ff;
+  --stroke-neon-magenta: #ff007f;
+  --stroke-panel: rgba(0, 229, 255, 0.4);
+
+  /* Acentos */
+  --gold-reward: #ffde59;
+  --gold-reward-alt: #ffdf00;
+  --gold-stroke: #5a3800;
+  --gold-border-dark: #7a4b00;
+  --energy-cyan: #00f0ff;
+  --alert-red: #ff3355;
+  --status-disabled: #402b6d;
+
+  /* Gradientes */
+  --grad-cta-primary: linear-gradient(180deg, #39ff14 0%, #00c800 50%, #006600 100%);
+  --grad-cta-primary-alt: linear-gradient(180deg, #39ff14 0%, #00a82d 100%);
+  --grad-cta-monetize: linear-gradient(135deg, #00e5ff 0%, #d900ff 100%);
+  --grad-progress: linear-gradient(90deg, #00d2ff 0%, #d900ff 100%);
+  --grad-tab-active: linear-gradient(135deg, #00e5ff 0%, #c800ff 100%);
+  --grad-title-fill: linear-gradient(180deg, #ffffff 0%, #ffee55 50%, #ff9900 100%);
+
+  /* Glow */
+  --glow-green: 0 0 16px rgba(57, 255, 20, 0.7);
+  --glow-cyan: 0 0 16px rgba(0, 229, 255, 0.6);
+  --glow-magenta: 0 0 16px rgba(217, 0, 255, 0.6);
+  --glow-gold: 0 0 14px rgba(255, 223, 0, 0.6);
+
+  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-app-space);
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+
+/* Custom Game HUD Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #07011e;
+}
+::-webkit-scrollbar-thumb {
+  background: #2b0e68;
+  border-radius: 4px;
+  border: 1px solid #3d1e6d;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00e5ff;
+  box-shadow: 0 0 8px #00e5ff;
+}
+
+/* Triple-layer CTA Button Styles */
+.btn-cta-green {
+  background: var(--grad-cta-primary);
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #032403;
+  font-weight: 800;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-cta-green:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(57, 255, 20, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+  filter: brightness(1.1);
+}
+.btn-cta-green:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-cta-cyan-magenta {
+  background: var(--grad-cta-monetize);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-cta-cyan-magenta:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(217, 0, 255, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+  filter: brightness(1.1);
+}
+
+.btn-cta-purple {
+  background: #2b0e68;
+  border: 1px solid #8a57d8;
+  color: #e2d9fc;
+  transition: all 0.2s;
+}
+.btn-cta-purple:hover:not(:disabled) {
+  background: #3d1e6d;
+  border-color: #a77df0;
+  box-shadow: 0 0 12px rgba(138, 87, 216, 0.4);
+}
+
+/* Trophy Title 3D Fill */
+.title-trophy-gradient {
+  background: var(--grad-title-fill);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(255, 153, 0, 0.4));
+}
+
+/* Glassmorphism Dark Panel */
+.panel-glass-neon {
+  background: rgba(26, 9, 72, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 229, 255, 0.28);
+  box-shadow: 0 8px 32px 0 rgba(5, 0, 20, 0.75);
+}
+
+.panel-glass-neon:hover {
+  border-color: rgba(0, 229, 255, 0.45);
+}
+
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
