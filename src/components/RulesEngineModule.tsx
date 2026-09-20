@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import {
   Avatar,
   AvatarUnlockRule,
   TriggerType,
   AccumulationMode,
-} from '../types';
-import { RarityBadge, RuleValidityBadge } from './Badges';
+} from "../types";
+import { RarityBadge, RuleValidityBadge } from "./Badges";
 import {
   formatCurrency,
   parseCurrencyInput,
@@ -13,7 +13,7 @@ import {
   parsePercentageInput,
   computeRuleValidity,
   formatDateUtc,
-} from '../lib/formatters';
+} from "../lib/formatters";
 import {
   Sliders,
   Plus,
@@ -25,7 +25,7 @@ import {
   Filter,
   TrendingUp,
   Trash2,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface RulesEngineModuleProps {
   rules: AvatarUnlockRule[];
@@ -48,27 +48,32 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
 
   // Form Fields State
   const [avatarId, setAvatarId] = useState<string>(
-    selectedAvatarIdForFilter || avatars[0]?.id || ''
+    selectedAvatarIdForFilter || avatars[0]?.id || ""
   );
-  const [ruleName, setRuleName] = useState<string>('');
-  const [triggerType, setTriggerType] = useState<TriggerType>('BET_AMOUNT');
+  const [ruleName, setRuleName] = useState<string>("");
+  const [triggerType, setTriggerType] = useState<TriggerType>("BET_AMOUNT");
   const [thresholdValue, setThresholdValue] = useState<number>(1000000);
-  const [thresholdRawInput, setThresholdRawInput] = useState<string>('$1,000,000');
-  const [accumulationMode, setAccumulationMode] = useState<AccumulationMode>('SINGLE_SPIN');
+  const [thresholdRawInput, setThresholdRawInput] =
+    useState<string>("$1,000,000");
+  const [accumulationMode, setAccumulationMode] =
+    useState<AccumulationMode>("SINGLE_SPIN");
   const [dropChancePct, setDropChancePct] = useState<number>(0.05);
-  const [dropChanceRawInput, setDropChanceRawInput] = useState<string>('0.0500%');
-  const [startDateUtc, setStartDateUtc] = useState<string>('2026-09-01T00:00:00Z');
-  const [endDateUtc, setEndDateUtc] = useState<string>('2026-12-31T23:59:59Z');
+  const [dropChanceRawInput, setDropChanceRawInput] =
+    useState<string>("0.0500%");
+  const [startDateUtc, setStartDateUtc] = useState<string>(
+    "2026-09-01T00:00:00Z"
+  );
+  const [endDateUtc, setEndDateUtc] = useState<string>("2026-12-31T23:59:59Z");
   const [isActive, setIsActive] = useState<boolean>(true);
 
   // Filter for table
   const [tableFilterAvatarId, setTableFilterAvatarId] = useState<string>(
-    selectedAvatarIdForFilter || 'ALL'
+    selectedAvatarIdForFilter || "ALL"
   );
-  const [tableValidityFilter, setTableValidityFilter] = useState<string>('ALL');
+  const [tableValidityFilter, setTableValidityFilter] = useState<string>("ALL");
 
   // Autocomplete avatar search in form
-  const [avatarSearchTerm, setAvatarSearchTerm] = useState('');
+  const [avatarSearchTerm, setAvatarSearchTerm] = useState("");
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
 
   const selectedAvatar = avatars.find((a) => a.id === avatarId) || avatars[0];
@@ -77,7 +82,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
     return avatars.filter(
       (av) =>
         av.slug.toLowerCase().includes(avatarSearchTerm.toLowerCase()) ||
-        av.name_display.toLowerCase().includes(avatarSearchTerm.toLowerCase()) ||
+        av.name_display
+          .toLowerCase()
+          .includes(avatarSearchTerm.toLowerCase()) ||
         av.name_i18n_key.toLowerCase().includes(avatarSearchTerm.toLowerCase())
     );
   }, [avatars, avatarSearchTerm]);
@@ -110,20 +117,20 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
     setStartDateUtc(rule.start_date_utc);
     setEndDateUtc(rule.end_date_utc);
     setIsActive(rule.is_active);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const resetForm = () => {
     setEditingRuleId(null);
-    setRuleName('');
-    setTriggerType('BET_AMOUNT');
+    setRuleName("");
+    setTriggerType("BET_AMOUNT");
     setThresholdValue(1000000);
-    setThresholdRawInput('$1,000,000');
-    setAccumulationMode('SINGLE_SPIN');
+    setThresholdRawInput("$1,000,000");
+    setAccumulationMode("SINGLE_SPIN");
     setDropChancePct(0.05);
-    setDropChanceRawInput('0.0500%');
-    setStartDateUtc('2026-09-01T00:00:00Z');
-    setEndDateUtc('2026-12-31T23:59:59Z');
+    setDropChanceRawInput("0.0500%");
+    setStartDateUtc("2026-09-01T00:00:00Z");
+    setEndDateUtc("2026-12-31T23:59:59Z");
     setIsActive(true);
   };
 
@@ -134,11 +141,11 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
     const targetAvatar = avatars.find((a) => a.id === avatarId);
     const generatedName =
       ruleName.trim() ||
-      `${triggerType === 'BET_AMOUNT' ? 'Bet' : 'Win'} ${formatCurrency(
+      `${triggerType === "BET_AMOUNT" ? "Bet" : "Win"} ${formatCurrency(
         thresholdValue
-      )} (${accumulationMode === 'SINGLE_SPIN' ? 'Single Spin' : 'Cumulative'}) → ${
-        targetAvatar?.slug || 'Avatar'
-      }`;
+      )} (${
+        accumulationMode === "SINGLE_SPIN" ? "Single Spin" : "Cumulative"
+      }) → ${targetAvatar?.slug || "Avatar"}`;
 
     const newRule: AvatarUnlockRule = {
       id: editingRuleId || `RUL-${Math.floor(1000 + Math.random() * 9000)}`,
@@ -151,7 +158,8 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
       start_date_utc: startDateUtc,
       end_date_utc: endDateUtc,
       is_active: isActive,
-      created_at: new Date().toISOString().replace('T', ' ').substring(0, 16) + ' UTC',
+      created_at:
+        new Date().toISOString().replace("T", " ").substring(0, 16) + " UTC",
     };
 
     onSaveRule(newRule);
@@ -162,13 +170,16 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
   const filteredRules = useMemo(() => {
     return rules.filter((rule) => {
       const matchesAvatar =
-        tableFilterAvatarId === 'ALL' || rule.avatar_id === tableFilterAvatarId;
+        tableFilterAvatarId === "ALL" || rule.avatar_id === tableFilterAvatarId;
 
-      const validity = computeRuleValidity(rule.start_date_utc, rule.end_date_utc);
+      const validity = computeRuleValidity(
+        rule.start_date_utc,
+        rule.end_date_utc
+      );
       const matchesValidity =
-        tableValidityFilter === 'ALL' ||
-        (tableValidityFilter === 'ACTIVE' && rule.is_active) ||
-        (tableValidityFilter === 'INACTIVE' && !rule.is_active) ||
+        tableValidityFilter === "ALL" ||
+        (tableValidityFilter === "ACTIVE" && rule.is_active) ||
+        (tableValidityFilter === "INACTIVE" && !rule.is_active) ||
         validity === tableValidityFilter;
 
       return matchesAvatar && matchesValidity;
@@ -188,10 +199,13 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
             </div>
             <div>
               <h2 className="text-lg font-black text-white uppercase font-rajdhani tracking-wide">
-                {editingRuleId ? `Modify Rule: ${editingRuleId}` : 'Create LiveOps Unlock Rule'}
+                {editingRuleId
+                  ? `Modify Rule: ${editingRuleId}`
+                  : "Create LiveOps Unlock Rule"}
               </h2>
               <p className="text-xs text-purple-300/60">
-                Configure hot parameters for drop algorithms and casino triggers.
+                Configure hot parameters for drop algorithms and casino
+                triggers.
               </p>
             </div>
           </div>
@@ -212,7 +226,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
             {/* Avatar Selector with Autocomplete */}
             <div className="lg:col-span-6 space-y-1.5 relative">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                Associated Avatar (`avatar_id`) *
+                Associated Avatar *
               </label>
 
               <div
@@ -231,11 +245,15 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                         {selectedAvatar.slug}
                         <RarityBadge rarity={selectedAvatar.rarity} size="sm" />
                       </div>
-                      <div className="text-[10px] text-purple-300/60">{selectedAvatar.name_display}</div>
+                      <div className="text-[10px] text-purple-300/60">
+                        {selectedAvatar.name_display}
+                      </div>
                     </div>
                   </div>
                 ) : (
-                  <span className="text-xs text-purple-400">Select an avatar...</span>
+                  <span className="text-xs text-purple-400">
+                    Select an avatar...
+                  </span>
                 )}
                 <span className="text-xs text-purple-400">▼</span>
               </div>
@@ -262,10 +280,12 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                         onClick={() => {
                           setAvatarId(av.id);
                           setIsAvatarDropdownOpen(false);
-                          setAvatarSearchTerm('');
+                          setAvatarSearchTerm("");
                         }}
                         className={`p-2 rounded-lg flex items-center justify-between cursor-pointer hover:bg-[#2B0E68] transition-colors ${
-                          avatarId === av.id ? 'bg-[#2B0E68] border border-[#00E5FF]/40' : ''
+                          avatarId === av.id
+                            ? "bg-[#2B0E68] border border-[#00E5FF]/40"
+                            : ""
                         }`}
                       >
                         <div className="flex items-center gap-2.5">
@@ -275,8 +295,12 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                             className="w-7 h-7 rounded object-cover"
                           />
                           <div>
-                            <div className="text-xs font-bold text-white font-mono-code">{av.slug}</div>
-                            <div className="text-[10px] text-purple-300/60">{av.name_display}</div>
+                            <div className="text-xs font-bold text-white font-mono-code">
+                              {av.slug}
+                            </div>
+                            <div className="text-[10px] text-purple-300/60">
+                              {av.name_display}
+                            </div>
                           </div>
                         </div>
                         <RarityBadge rarity={av.rarity} size="sm" />
@@ -300,7 +324,8 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 className="w-full px-4 py-2.5 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white focus:outline-none"
               />
               <p className="text-[10px] text-purple-300/50">
-                Optional: If left blank, the system will auto-generate a normalized label.
+                Optional: If left blank, the system will auto-generate a
+                normalized label.
               </p>
             </div>
           </div>
@@ -310,17 +335,17 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
             <div className="md:col-span-6 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5 text-[#00E5FF]" />
-                Trigger Type (`trigger_type`) *
+                Trigger Type *
               </label>
 
               <div className="grid grid-cols-2 gap-2 bg-[#07011E] p-1.5 rounded-xl border border-[#2E146D]">
                 <button
                   type="button"
-                  onClick={() => setTriggerType('BET_AMOUNT')}
+                  onClick={() => setTriggerType("BET_AMOUNT")}
                   className={`py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                    triggerType === 'BET_AMOUNT'
-                      ? 'bg-gradient-to-r from-[#00E5FF]/20 to-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF] shadow-[0_0_10px_rgba(0,229,255,0.3)]'
-                      : 'text-purple-300/70 hover:text-white'
+                    triggerType === "BET_AMOUNT"
+                      ? "bg-gradient-to-r from-[#00E5FF]/20 to-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF] shadow-[0_0_10px_rgba(0,229,255,0.3)]"
+                      : "text-purple-300/70 hover:text-white"
                   }`}
                 >
                   <DollarSign className="w-3.5 h-3.5" />
@@ -329,11 +354,11 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => setTriggerType('WIN_AMOUNT')}
+                  onClick={() => setTriggerType("WIN_AMOUNT")}
                   className={`py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                    triggerType === 'WIN_AMOUNT'
-                      ? 'bg-gradient-to-r from-[#39FF14]/20 to-[#39FF14]/10 text-[#39FF14] border border-[#39FF14] shadow-[0_0_10px_rgba(57,255,20,0.3)]'
-                      : 'text-purple-300/70 hover:text-white'
+                    triggerType === "WIN_AMOUNT"
+                      ? "bg-gradient-to-r from-[#39FF14]/20 to-[#39FF14]/10 text-[#39FF14] border border-[#39FF14] shadow-[0_0_10px_rgba(57,255,20,0.3)]"
+                      : "text-purple-300/70 hover:text-white"
                   }`}
                 >
                   <TrendingUp className="w-3.5 h-3.5" />
@@ -345,7 +370,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
             <div className="md:col-span-6 space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Threshold Value (`threshold_value`) *
+                  Threshold Value *
                 </label>
                 <span className="text-[10px] text-[#FFDE59] font-mono-code font-bold">
                   Base Currency USD
@@ -362,7 +387,8 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 />
               </div>
               <p className="text-[10px] text-purple-300/50">
-                Minimum amount required for the engine to evaluate spin drop odds ({triggerType}).
+                Minimum amount required for the engine to evaluate spin drop
+                odds ({triggerType}).
               </p>
             </div>
           </div>
@@ -371,12 +397,14 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
             <div className="md:col-span-6 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                Accumulation Mode (`accumulation_mode`) *
+                Accumulation Mode *
               </label>
 
               <select
                 value={accumulationMode}
-                onChange={(e) => setAccumulationMode(e.target.value as AccumulationMode)}
+                onChange={(e) =>
+                  setAccumulationMode(e.target.value as AccumulationMode)
+                }
                 className="w-full px-4 py-2.5 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white font-semibold focus:outline-none cursor-pointer"
               >
                 <option value="SINGLE_SPIN" className="bg-[#07011E]">
@@ -387,14 +415,15 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 </option>
               </select>
               <p className="text-[10px] text-purple-300/50">
-                `SINGLE_SPIN` rewards instant high-rollers; `CUMULATIVE` rewards persistence and retention.
+                `SINGLE_SPIN` rewards instant high-rollers; `CUMULATIVE` rewards
+                persistence and retention.
               </p>
             </div>
 
             <div className="md:col-span-6 space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Drop Probability (`drop_chance_pct`) *
+                  Drop Probability *
                 </label>
                 <span className="text-[10px] text-[#00E5FF] font-mono-code font-bold">
                   {dropChancePct} / 100
@@ -425,8 +454,10 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               </label>
               <input
                 type="datetime-local"
-                value={startDateUtc.replace('Z', '').substring(0, 16)}
-                onChange={(e) => setStartDateUtc(new Date(e.target.value).toISOString())}
+                value={startDateUtc.replace("Z", "").substring(0, 16)}
+                onChange={(e) =>
+                  setStartDateUtc(new Date(e.target.value).toISOString())
+                }
                 className="w-full px-3 py-2 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white font-mono-code focus:outline-none"
               />
             </div>
@@ -438,15 +469,17 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               </label>
               <input
                 type="datetime-local"
-                value={endDateUtc.replace('Z', '').substring(0, 16)}
-                onChange={(e) => setEndDateUtc(new Date(e.target.value).toISOString())}
+                value={endDateUtc.replace("Z", "").substring(0, 16)}
+                onChange={(e) =>
+                  setEndDateUtc(new Date(e.target.value).toISOString())
+                }
                 className="w-full px-3 py-2 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white font-mono-code focus:outline-none"
               />
             </div>
 
             <div className="sm:col-span-12 md:col-span-4 space-y-1.5 flex flex-col justify-between">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                Operational State (`is_active`)
+                Operational State
               </label>
 
               <div className="flex items-center gap-3 bg-[#07011E] p-2.5 rounded-xl border border-[#2E146D]">
@@ -455,13 +488,15 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                   onClick={() => setIsActive(!isActive)}
                   className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-200 ease-in-out cursor-pointer ${
                     isActive
-                      ? 'bg-[#39FF14] shadow-[0_0_12px_rgba(57,255,20,0.5)]'
-                      : 'bg-[#402B6D]'
+                      ? "bg-[#39FF14] shadow-[0_0_12px_rgba(57,255,20,0.5)]"
+                      : "bg-[#402B6D]"
                   }`}
                 >
                   <div
                     className={`bg-black w-4 h-4 rounded-full shadow-md transform transition-transform duration-200 ease-in-out ${
-                      isActive ? 'translate-x-6 bg-[#050014]' : 'translate-x-0 bg-slate-300'
+                      isActive
+                        ? "translate-x-6 bg-[#050014]"
+                        : "translate-x-0 bg-slate-300"
                     }`}
                   />
                 </button>
@@ -472,7 +507,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                       ACTIVE IN PRODUCTION
                     </span>
                   ) : (
-                    <span className="text-purple-300/70">PAUSED / INACTIVE</span>
+                    <span className="text-purple-300/70">
+                      PAUSED / INACTIVE
+                    </span>
                   )}
                 </div>
               </div>
@@ -495,7 +532,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               className="btn-cta-green px-6 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(57,255,20,0.5)]"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
-              {editingRuleId ? 'Update LiveOps Rule' : 'Register LiveOps Rule'}
+              {editingRuleId ? "Update LiveOps Rule" : "Register LiveOps Rule"}
             </button>
           </div>
         </form>
@@ -507,7 +544,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
           <div>
             <div className="flex items-center gap-2.5">
               <h3 className="text-base font-black text-white uppercase font-rajdhani tracking-wider">
-                Configured Rules (`avatar_unlock_rules`)
+                Configured Rules
               </h3>
               <span className="text-xs px-2 py-0.5 rounded-full font-mono-code font-bold bg-[#39FF14]/10 text-[#39FF14] border border-[#39FF14]/30">
                 {filteredRules.length} registered
@@ -526,7 +563,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 onChange={(e) => setTableFilterAvatarId(e.target.value)}
                 className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
               >
-                <option value="ALL" className="bg-[#07011E]">All Avatars</option>
+                <option value="ALL" className="bg-[#07011E]">
+                  All Avatars
+                </option>
                 {avatars.map((av) => (
                   <option key={av.id} value={av.id} className="bg-[#07011E]">
                     {av.slug}
@@ -541,12 +580,24 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 onChange={(e) => setTableValidityFilter(e.target.value)}
                 className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
               >
-                <option value="ALL" className="bg-[#07011E]">All States</option>
-                <option value="Active" className="bg-[#07011E]">Active Only</option>
-                <option value="Scheduled" className="bg-[#07011E]">Scheduled Only</option>
-                <option value="Expired" className="bg-[#07011E]">Expired Only</option>
-                <option value="ACTIVE" className="bg-[#07011E]">Switch ON Only</option>
-                <option value="INACTIVE" className="bg-[#07011E]">Switch OFF Only</option>
+                <option value="ALL" className="bg-[#07011E]">
+                  All States
+                </option>
+                <option value="Active" className="bg-[#07011E]">
+                  Active Only
+                </option>
+                <option value="Scheduled" className="bg-[#07011E]">
+                  Scheduled Only
+                </option>
+                <option value="Expired" className="bg-[#07011E]">
+                  Expired Only
+                </option>
+                <option value="ACTIVE" className="bg-[#07011E]">
+                  Switch ON Only
+                </option>
+                <option value="INACTIVE" className="bg-[#07011E]">
+                  Switch OFF Only
+                </option>
               </select>
             </div>
           </div>
@@ -568,8 +619,13 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
             </thead>
             <tbody className="divide-y divide-[#2E146D]/50 text-xs">
               {filteredRules.map((rule) => {
-                const targetAvatar = avatars.find((a) => a.id === rule.avatar_id);
-                const validity = computeRuleValidity(rule.start_date_utc, rule.end_date_utc);
+                const targetAvatar = avatars.find(
+                  (a) => a.id === rule.avatar_id
+                );
+                const validity = computeRuleValidity(
+                  rule.start_date_utc,
+                  rule.end_date_utc
+                );
 
                 return (
                   <tr
@@ -579,27 +635,35 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                     <td className="py-3 px-4">
                       <button
                         type="button"
-                        onClick={() => onToggleRuleActive(rule.id, !rule.is_active)}
+                        onClick={() =>
+                          onToggleRuleActive(rule.id, !rule.is_active)
+                        }
                         className={`w-10 h-5 flex items-center rounded-full p-0.5 transition-colors duration-200 cursor-pointer ${
                           rule.is_active
-                            ? 'bg-[#39FF14] shadow-[0_0_10px_rgba(57,255,20,0.5)]'
-                            : 'bg-[#402B6D]'
+                            ? "bg-[#39FF14] shadow-[0_0_10px_rgba(57,255,20,0.5)]"
+                            : "bg-[#402B6D]"
                         }`}
-                        title={rule.is_active ? 'Deactivate rule' : 'Activate rule'}
+                        title={
+                          rule.is_active ? "Deactivate rule" : "Activate rule"
+                        }
                       >
                         <div
                           className={`w-4 h-4 rounded-full transition-transform duration-200 ${
                             rule.is_active
-                              ? 'translate-x-5 bg-[#050014]'
-                              : 'translate-x-0 bg-slate-300'
+                              ? "translate-x-5 bg-[#050014]"
+                              : "translate-x-0 bg-slate-300"
                           }`}
                         />
                       </button>
                     </td>
 
                     <td className="py-3 px-4">
-                      <div className="font-bold text-white font-mono-code">{rule.id}</div>
-                      <div className="text-[11px] text-purple-300/70 truncate max-w-xs">{rule.name}</div>
+                      <div className="font-bold text-white font-mono-code">
+                        {rule.id}
+                      </div>
+                      <div className="text-[11px] text-purple-300/70 truncate max-w-xs">
+                        {rule.name}
+                      </div>
                     </td>
 
                     <td className="py-3 px-4">
@@ -614,11 +678,16 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                             <div className="font-bold text-white font-mono-code group-hover:text-[#00E5FF] transition-colors">
                               {targetAvatar.slug}
                             </div>
-                            <RarityBadge rarity={targetAvatar.rarity} size="sm" />
+                            <RarityBadge
+                              rarity={targetAvatar.rarity}
+                              size="sm"
+                            />
                           </div>
                         </div>
                       ) : (
-                        <span className="text-slate-500 italic">Deleted Avatar ({rule.avatar_id})</span>
+                        <span className="text-slate-500 italic">
+                          Deleted Avatar ({rule.avatar_id})
+                        </span>
                       )}
                     </td>
 
@@ -626,9 +695,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                       <div className="flex items-center gap-1.5 font-bold">
                         <span
                           className={`text-[10px] px-1.5 py-0.2 rounded font-mono-code ${
-                            rule.trigger_type === 'BET_AMOUNT'
-                              ? 'bg-[#00E5FF]/20 text-[#00E5FF]'
-                              : 'bg-[#39FF14]/20 text-[#39FF14]'
+                            rule.trigger_type === "BET_AMOUNT"
+                              ? "bg-[#00E5FF]/20 text-[#00E5FF]"
+                              : "bg-[#39FF14]/20 text-[#39FF14]"
                           }`}
                         >
                           {rule.trigger_type}
@@ -653,11 +722,14 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
 
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
-                        <RuleValidityBadge validity={validity} isActive={rule.is_active} />
+                        <RuleValidityBadge
+                          validity={validity}
+                          isActive={rule.is_active}
+                        />
                       </div>
                       <div className="text-[10px] text-purple-300/50 font-mono-code mt-1">
-                        {formatDateUtc(rule.start_date_utc).split(' ')[0]} →{' '}
-                        {formatDateUtc(rule.end_date_utc).split(' ')[0]}
+                        {formatDateUtc(rule.start_date_utc).split(" ")[0]} →{" "}
+                        {formatDateUtc(rule.end_date_utc).split(" ")[0]}
                       </div>
                     </td>
 

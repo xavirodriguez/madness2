@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import { Avatar, AvatarRarity, AvatarStatus } from '../types';
-import { RarityBadge, StatusBadge } from './Badges';
+import React, { useState, useMemo } from "react";
+import { Avatar, AvatarRarity, AvatarStatus } from "../types";
+import { RarityBadge, StatusBadge } from "./Badges";
 import {
   Search,
   LayoutGrid,
@@ -11,7 +11,7 @@ import {
   Eye,
   ArrowUpDown,
   Filter,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface CatalogModuleProps {
   avatars: Avatar[];
@@ -22,8 +22,8 @@ interface CatalogModuleProps {
   onPreviewInGame: (avatar: Avatar) => void;
 }
 
-type SortField = 'slug' | 'name_i18n_key' | 'rarity' | 'status' | 'updated_at';
-type SortOrder = 'asc' | 'desc';
+type SortField = "slug" | "name_i18n_key" | "rarity" | "status" | "updated_at";
+type SortOrder = "asc" | "desc";
 
 export const CatalogModule: React.FC<CatalogModuleProps> = ({
   avatars,
@@ -33,25 +33,27 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
   onNavigateToRules,
   onPreviewInGame,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [rarityFilter, setRarityFilter] = useState<string>('ALL');
-  const [statusFilter, setStatusFilter] = useState<string>('ALL');
-  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
-  const [sortField, setSortField] = useState<SortField>('updated_at');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [rarityFilter, setRarityFilter] = useState<string>("ALL");
+  const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+  const [sortField, setSortField] = useState<SortField>("updated_at");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
   // Filtered and sorted avatars
   const filteredAvatars = useMemo(() => {
     return avatars
       .filter((av) => {
         const matchesSearch =
-          searchTerm.trim() === '' ||
+          searchTerm.trim() === "" ||
           av.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
           av.name_i18n_key.toLowerCase().includes(searchTerm.toLowerCase()) ||
           av.name_display.toLowerCase().includes(searchTerm.toLowerCase());
 
-        const matchesRarity = rarityFilter === 'ALL' || av.rarity === rarityFilter;
-        const matchesStatus = statusFilter === 'ALL' || av.status === statusFilter;
+        const matchesRarity =
+          rarityFilter === "ALL" || av.rarity === rarityFilter;
+        const matchesStatus =
+          statusFilter === "ALL" || av.status === statusFilter;
 
         return matchesSearch && matchesRarity && matchesStatus;
       })
@@ -59,8 +61,8 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
         const valA = a[sortField];
         const valB = b[sortField];
 
-        if (typeof valA === 'string') {
-          return sortOrder === 'asc'
+        if (typeof valA === "string") {
+          return sortOrder === "asc"
             ? valA.localeCompare(valB as string)
             : (valB as string).localeCompare(valA);
         }
@@ -70,10 +72,10 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortOrder('asc');
+      setSortOrder("asc");
     }
   };
 
@@ -82,16 +84,17 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
       {/* Header & Main Control Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-[#16083D]/90 p-4 sm:p-5 rounded-2xl border border-[#2E146D] shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
         <div className="space-y-1">
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <h2 className="text-lg sm:text-xl font-extrabold text-white tracking-wide font-rajdhani uppercase">
-              Master Catalog (`avatars`)
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-extrabold text-white tracking-wide font-rajdhani uppercase">
+              Master Catalog
             </h2>
             <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#00E5FF]/15 text-[#00E5FF] border border-[#00E5FF]/30">
               {filteredAvatars.length} of {avatars.length} active
             </span>
           </div>
           <p className="text-xs text-purple-300/70">
-            Real-time filtering by technical slug, i18n key, or CDN deployment state.
+            Real-time filtering by technical slug, i18n key, or CDN deployment
+            state.
           </p>
         </div>
 
@@ -101,8 +104,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
             onClick={onCreateAvatar}
             className="btn-cta-green px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold cursor-pointer"
           >
-            <Plus className="w-4 h-4 stroke-[3]" />
-            + Create Avatar
+            <Plus className="w-4 h-4 stroke-[3]" />+ Create Avatar
           </button>
         </div>
       </div>
@@ -121,7 +123,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
           />
           {searchTerm && (
             <button
-              onClick={() => setSearchTerm('')}
+              onClick={() => setSearchTerm("")}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-purple-400 hover:text-white"
             >
               ✕
@@ -140,11 +142,21 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
               onChange={(e) => setRarityFilter(e.target.value)}
               className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
             >
-              <option value="ALL" className="bg-[#16083D]">All</option>
-              <option value="COMMON" className="bg-[#16083D]">COMMON (Slate)</option>
-              <option value="RARE" className="bg-[#16083D]">RARE (Blue)</option>
-              <option value="EPIC" className="bg-[#16083D]">EPIC (Purple)</option>
-              <option value="LEGENDARY" className="bg-[#16083D]">LEGENDARY (Gold)</option>
+              <option value="ALL" className="bg-[#16083D]">
+                All
+              </option>
+              <option value="COMMON" className="bg-[#16083D]">
+                COMMON (Slate)
+              </option>
+              <option value="RARE" className="bg-[#16083D]">
+                RARE (Blue)
+              </option>
+              <option value="EPIC" className="bg-[#16083D]">
+                EPIC (Purple)
+              </option>
+              <option value="LEGENDARY" className="bg-[#16083D]">
+                LEGENDARY (Gold)
+              </option>
             </select>
           </div>
 
@@ -156,21 +168,29 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
               onChange={(e) => setStatusFilter(e.target.value)}
               className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
             >
-              <option value="ALL" className="bg-[#16083D]">All</option>
-              <option value="ACTIVE" className="bg-[#16083D]">ACTIVE (Emerald)</option>
-              <option value="DRAFT" className="bg-[#16083D]">DRAFT (Amber)</option>
-              <option value="ARCHIVED" className="bg-[#16083D]">ARCHIVED (Rose)</option>
+              <option value="ALL" className="bg-[#16083D]">
+                All
+              </option>
+              <option value="ACTIVE" className="bg-[#16083D]">
+                ACTIVE (Emerald)
+              </option>
+              <option value="DRAFT" className="bg-[#16083D]">
+                DRAFT (Amber)
+              </option>
+              <option value="ARCHIVED" className="bg-[#16083D]">
+                ARCHIVED (Rose)
+              </option>
             </select>
           </div>
 
           {/* View Toggle: Grid vs Table */}
           <div className="flex items-center bg-[#16083D] p-1 rounded-xl border border-[#2E146D]">
             <button
-              onClick={() => setViewMode('grid')}
+              onClick={() => setViewMode("grid")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                viewMode === 'grid'
-                  ? 'bg-gradient-to-r from-[#00E5FF] to-[#D900FF] text-white shadow-[0_0_10px_rgba(0,229,255,0.4)]'
-                  : 'text-purple-300 hover:text-white'
+                viewMode === "grid"
+                  ? "bg-gradient-to-r from-[#00E5FF] to-[#D900FF] text-white shadow-[0_0_10px_rgba(0,229,255,0.4)]"
+                  : "text-purple-300 hover:text-white"
               }`}
               title="Grid View"
             >
@@ -178,11 +198,11 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
               <span className="hidden sm:inline">Grid</span>
             </button>
             <button
-              onClick={() => setViewMode('table')}
+              onClick={() => setViewMode("table")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                viewMode === 'table'
-                  ? 'bg-gradient-to-r from-[#00E5FF] to-[#D900FF] text-white shadow-[0_0_10px_rgba(0,229,255,0.4)]'
-                  : 'text-purple-300 hover:text-white'
+                viewMode === "table"
+                  ? "bg-gradient-to-r from-[#00E5FF] to-[#D900FF] text-white shadow-[0_0_10px_rgba(0,229,255,0.4)]"
+                  : "text-purple-300 hover:text-white"
               }`}
               title="Table View"
             >
@@ -205,9 +225,9 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
           </p>
           <button
             onClick={() => {
-              setSearchTerm('');
-              setRarityFilter('ALL');
-              setStatusFilter('ALL');
+              setSearchTerm("");
+              setRarityFilter("ALL");
+              setStatusFilter("ALL");
             }}
             className="btn-cta-purple px-4 py-1.5 rounded-lg text-xs font-semibold"
           >
@@ -217,19 +237,19 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
       )}
 
       {/* GRID VIEW */}
-      {viewMode === 'grid' && filteredAvatars.length > 0 && (
+      {viewMode === "grid" && filteredAvatars.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {filteredAvatars.map((avatar) => {
             const hasActiveRules = activeRuleAvatarIds.has(avatar.id);
 
             const rarityBorder =
-              avatar.rarity === 'LEGENDARY'
-                ? 'border-[#FFDF00]/50 hover:border-[#FFDF00] hover:shadow-[0_0_20px_rgba(255,223,0,0.35)]'
-                : avatar.rarity === 'EPIC'
-                ? 'border-purple-600/50 hover:border-purple-500 hover:shadow-[0_0_18px_rgba(147,51,234,0.35)]'
-                : avatar.rarity === 'RARE'
-                ? 'border-blue-600/50 hover:border-blue-400 hover:shadow-[0_0_18px_rgba(37,99,235,0.35)]'
-                : 'border-slate-500/50 hover:border-slate-400';
+              avatar.rarity === "LEGENDARY"
+                ? "border-[#FFDF00]/50 hover:border-[#FFDF00] hover:shadow-[0_0_20px_rgba(255,223,0,0.35)]"
+                : avatar.rarity === "EPIC"
+                ? "border-purple-600/50 hover:border-purple-500 hover:shadow-[0_0_18px_rgba(147,51,234,0.35)]"
+                : avatar.rarity === "RARE"
+                ? "border-blue-600/50 hover:border-blue-400 hover:shadow-[0_0_18px_rgba(37,99,235,0.35)]"
+                : "border-slate-500/50 hover:border-slate-400";
 
             return (
               <div
@@ -242,13 +262,13 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     className="absolute inset-0 opacity-40 group-hover:opacity-75 transition-opacity"
                     style={{
                       background:
-                        avatar.rarity === 'LEGENDARY'
-                          ? 'radial-gradient(circle at center, rgba(255,223,0,0.3) 0%, transparent 70%)'
-                          : avatar.rarity === 'EPIC'
-                          ? 'radial-gradient(circle at center, rgba(147,51,234,0.35) 0%, transparent 70%)'
-                          : avatar.rarity === 'RARE'
-                          ? 'radial-gradient(circle at center, rgba(0,229,255,0.25) 0%, transparent 70%)'
-                          : 'radial-gradient(circle at center, rgba(100,116,139,0.2) 0%, transparent 70%)',
+                        avatar.rarity === "LEGENDARY"
+                          ? "radial-gradient(circle at center, rgba(255,223,0,0.3) 0%, transparent 70%)"
+                          : avatar.rarity === "EPIC"
+                          ? "radial-gradient(circle at center, rgba(147,51,234,0.35) 0%, transparent 70%)"
+                          : avatar.rarity === "RARE"
+                          ? "radial-gradient(circle at center, rgba(0,229,255,0.25) 0%, transparent 70%)"
+                          : "radial-gradient(circle at center, rgba(100,116,139,0.2) 0%, transparent 70%)",
                     }}
                   />
 
@@ -261,7 +281,11 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
 
                   {/* Top Badges Overlay */}
                   <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10">
-                    <RarityBadge rarity={avatar.rarity} size="sm" showStars={avatar.rarity === 'LEGENDARY'} />
+                    <RarityBadge
+                      rarity={avatar.rarity}
+                      size="sm"
+                      showStars={avatar.rarity === "LEGENDARY"}
+                    />
                     <StatusBadge status={avatar.status} size="sm" />
                   </div>
 
@@ -293,7 +317,10 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                         {avatar.slug}
                       </h3>
                     </div>
-                    <p className="text-[11px] font-mono-code text-purple-300/70 truncate mt-0.5" title={avatar.name_i18n_key}>
+                    <p
+                      className="text-[11px] font-mono-code text-purple-300/70 truncate mt-0.5"
+                      title={avatar.name_i18n_key}
+                    >
                       {avatar.name_i18n_key}
                     </p>
                     <p className="text-[11px] text-slate-400 line-clamp-2 mt-1.5 leading-relaxed">
@@ -340,7 +367,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
       )}
 
       {/* TABLE VIEW */}
-      {viewMode === 'table' && filteredAvatars.length > 0 && (
+      {viewMode === "table" && filteredAvatars.length > 0 && (
         <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] overflow-hidden shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -348,7 +375,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                 <tr className="border-b border-[#2E146D] bg-[#07011E]/80 text-[11px] font-bold uppercase tracking-wider text-purple-300/70 select-none">
                   <th className="py-3.5 px-4 w-16">Thumbnail</th>
                   <th
-                    onClick={() => handleSort('slug')}
+                    onClick={() => handleSort("slug")}
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
@@ -357,7 +384,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     </div>
                   </th>
                   <th
-                    onClick={() => handleSort('name_i18n_key')}
+                    onClick={() => handleSort("name_i18n_key")}
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
@@ -366,7 +393,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     </div>
                   </th>
                   <th
-                    onClick={() => handleSort('rarity')}
+                    onClick={() => handleSort("rarity")}
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
@@ -375,7 +402,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     </div>
                   </th>
                   <th
-                    onClick={() => handleSort('status')}
+                    onClick={() => handleSort("status")}
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
@@ -384,7 +411,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     </div>
                   </th>
                   <th
-                    onClick={() => handleSort('updated_at')}
+                    onClick={() => handleSort("updated_at")}
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
@@ -421,7 +448,9 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                       {/* Slug */}
                       <td className="py-3 px-4 font-bold text-white font-mono-code">
                         <div className="flex items-center gap-2">
-                          <span className="group-hover:text-[#00E5FF] transition-colors">{avatar.slug}</span>
+                          <span className="group-hover:text-[#00E5FF] transition-colors">
+                            {avatar.slug}
+                          </span>
                           {hasActiveRules && (
                             <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#39FF14]/10 text-[#39FF14] border border-[#39FF14]/30">
                               LIVEOPS
@@ -442,7 +471,11 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
 
                       {/* Rarity */}
                       <td className="py-3 px-4">
-                        <RarityBadge rarity={avatar.rarity} size="sm" showStars={avatar.rarity === 'LEGENDARY'} />
+                        <RarityBadge
+                          rarity={avatar.rarity}
+                          size="sm"
+                          showStars={avatar.rarity === "LEGENDARY"}
+                        />
                       </td>
 
                       {/* Status */}
