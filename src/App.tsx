@@ -24,6 +24,7 @@ import { ToastContainer, ToastMessage } from './components/Toast';
 export default function App() {
   // Navigation State
   const [activeSection, setActiveSection] = useState<ActiveSection>('catalog');
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   // Core Data Collections in simulated React state
   const [avatars, setAvatars] = useState<Avatar[]>(INITIAL_AVATARS);
@@ -209,12 +210,13 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen w-screen bg-[#050014] text-slate-100 overflow-hidden">
+    <div className="flex h-screen w-screen bg-[#050014] text-slate-100 overflow-hidden relative">
       {/* Navigation Sidebar with 4 Main Sections */}
       <Sidebar
         activeSection={activeSection}
         onSelectSection={(section) => {
           setActiveSection(section);
+          setIsSidebarOpen(false);
           if (section === 'editor' && !editingAvatar) {
             setEditingAvatar(null);
           }
@@ -222,13 +224,21 @@ export default function App() {
         avatarCount={avatars.length}
         activeRuleCount={rules.filter((r) => r.is_active).length}
         unlockedCount={playerAvatars.length}
-        onOpenLivePreview={() => setPreviewAvatarInGame(avatars[0])}
+        onOpenLivePreview={() => {
+          setPreviewAvatarInGame(avatars[0]);
+          setIsSidebarOpen(false);
+        }}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
 
       {/* Main Backoffice Workspace */}
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-[#050014]">
         {/* Global Top HUD Header */}
-        <Header activeSection={activeSection} />
+        <Header
+          activeSection={activeSection}
+          onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        />
 
         {/* Dynamic Module Content Viewport */}
         <main className="flex-1 overflow-y-auto bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,50,220,0.15),rgba(5,0,20,1))]">

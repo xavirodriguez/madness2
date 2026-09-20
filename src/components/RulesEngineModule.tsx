@@ -176,9 +176,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
   }, [rules, tableFilterAvatarId, tableValidityFilter]);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-4 sm:space-y-6">
       {/* CREATE FORM CARD */}
-      <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-6 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
+      <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-4 sm:p-6 space-y-5 sm:space-y-6 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#2E146D] pb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00E5FF] to-[#D900FF] p-0.5 shadow-[0_0_12px_rgba(0,229,255,0.4)]">
@@ -417,8 +417,8 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
           </div>
 
           {/* Row 4: Date Range & Switch Toggle `is_active` */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 pt-2">
-            <div className="md:col-span-4 space-y-1.5">
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 pt-2">
+            <div className="sm:col-span-6 md:col-span-4 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-purple-400" />
                 Start Date (UTC)
@@ -431,7 +431,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               />
             </div>
 
-            <div className="md:col-span-4 space-y-1.5">
+            <div className="sm:col-span-6 md:col-span-4 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-purple-400" />
                 End Date (UTC)
@@ -444,7 +444,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               />
             </div>
 
-            <div className="md:col-span-4 space-y-1.5 flex flex-col justify-between">
+            <div className="sm:col-span-12 md:col-span-4 space-y-1.5 flex flex-col justify-between">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
                 Operational State (`is_active`)
               </label>

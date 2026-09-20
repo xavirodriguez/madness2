@@ -99,9 +99,9 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-4 sm:space-y-6">
       {/* Player Search Bar */}
-      <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
+      <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-4 sm:p-6 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
         <div>
           <h2 className="text-base font-black text-white uppercase font-rajdhani tracking-wider flex items-center gap-2">
             <User className="w-5 h-5 text-[#00E5FF]" />
@@ -171,8 +171,8 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
       {activePlayer && (
         <>
           {/* PLAYER PROFILE CARD */}
-          <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 shadow-[0_8px_30px_rgba(5,0,20,0.6)] space-y-6">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#2E146D]">
+          <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-4 sm:p-6 shadow-[0_8px_30px_rgba(5,0,20,0.6)] space-y-5 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#2E146D]">
               {/* Player Metadata */}
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00E5FF] to-[#D900FF] p-0.5 shadow-[0_0_20px_rgba(0,229,255,0.3)] shrink-0">
@@ -379,7 +379,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
       {/* MODAL "Grant Avatar (Admin Gift)" */}
       {isGiftModalOpen && activePlayer && (
         <div className="fixed inset-0 bg-[#050014]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-[#1A0948] border-2 border-[#00E5FF]/60 rounded-2xl max-w-lg w-full p-6 shadow-[0_0_40px_rgba(0,229,255,0.3)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-[#1A0948] border-2 border-[#00E5FF]/60 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 shadow-[0_0_40px_rgba(0,229,255,0.3)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between border-b border-[#2E146D] pb-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#00E5FF]/20 text-[#00E5FF] flex items-center justify-center border border-[#00E5FF]/40 shadow-[0_0_12px_rgba(0,229,255,0.3)]">
