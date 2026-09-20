@@ -23,7 +23,7 @@ export const GamePreviewModal: React.FC<GamePreviewModalProps> = ({ avatar, onCl
   return (
     <div className="fixed inset-0 bg-[#050014]/90 backdrop-blur-xl z-50 flex items-center justify-center p-4">
       {/* Container with mobile 9:16 simulator frame */}
-      <div className="relative max-w-sm w-full bg-[#07011E] rounded-[36px] border-4 border-[#2E146D] shadow-[0_0_60px_rgba(0,229,255,0.35)] overflow-hidden flex flex-col h-[780px] max-h-[95vh] select-none">
+      <div className="relative max-w-sm w-full bg-[#07011E] rounded-[36px] border-4 border-[#2E146D] shadow-[0_0_60px_rgba(0,229,255,0.35)] overflow-hidden flex flex-col h-[740px] max-h-[90vh] select-none">
         {/* Top phone notch & close control */}
         <div className="absolute top-3 left-0 right-0 z-30 flex items-center justify-between px-6">
           <div className="flex items-center gap-1 text-[10px] font-mono-code font-bold text-purple-300/80 bg-[#050014]/80 px-2 py-0.5 rounded-full border border-[#2E146D]">

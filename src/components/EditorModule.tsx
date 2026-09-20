@@ -201,13 +201,13 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-4 sm:space-y-6">
       {/* Top Breadcrumb & Actions Bar */}
-      <div className="flex items-center justify-between bg-[#16083D] p-4 rounded-2xl border border-[#2E146D]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#16083D] p-4 rounded-2xl border border-[#2E146D]">
         <div className="flex items-center gap-3">
           <button
             onClick={onCancel}
-            className="p-2 rounded-xl bg-[#07011E] text-purple-300 hover:text-white border border-[#2E146D] transition-colors"
+            className="p-2 rounded-xl bg-[#07011E] text-purple-300 hover:text-white border border-[#2E146D] transition-colors shrink-0"
             title="Return to Catalog"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -221,7 +221,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
               </h2>
               <StatusBadge status={status} size="sm" />
             </div>
-            <p className="text-xs text-purple-300/60">
+            <p className="text-[11px] sm:text-xs text-purple-300/60 truncate">
               {isEditing
                 ? "The slug is immutable to preserve consistency with game clients."
                 : "Define permanent slug, i18n localization key, and upload art for CDN."}
@@ -229,17 +229,17 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 self-end sm:self-auto shrink-0">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 rounded-xl bg-[#07011E] text-xs font-bold text-slate-400 hover:text-white border border-[#2E146D] transition-colors"
+            className="px-3.5 py-2 rounded-xl bg-[#07011E] text-xs font-bold text-slate-400 hover:text-white border border-[#2E146D] transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="btn-cta-green px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(57,255,20,0.5)]"
+            className="btn-cta-green px-4 sm:px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(57,255,20,0.5)]"
           >
             <Save className="w-4 h-4 stroke-[2.5]" />
             Save Avatar
@@ -248,18 +248,18 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
       </div>
 
       {/* Main Two-Panel Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
         {/* LEFT PANEL: Drag & Drop S3/CDN Zone with Live Preview */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-5 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
-            <div className="flex items-center justify-between">
+          <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-4 sm:p-5 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
+            <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-bold tracking-wider text-purple-300 uppercase flex items-center gap-1.5">
                 <UploadCloud className="w-4 h-4 text-[#00E5FF]" />
                 Asset Upload & CDN Preview
               </span>
 
               {/* Theme toggle */}
-              <div className="flex items-center bg-[#07011E] p-1 rounded-lg border border-[#2E146D]">
+              <div className="flex items-center bg-[#07011E] p-1 rounded-lg border border-[#2E146D] shrink-0">
                 <button
                   type="button"
                   onClick={() => setPreviewTheme("dark")}
@@ -299,14 +299,14 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
               </div>
             </div>
 
-            {/* Live 1:1 Preview Box */}
+            {/* Live 1:1 Preview Box (Max Height constrained on tablet portrait) */}
             <div
-              className={`relative aspect-square w-full rounded-2xl overflow-hidden border-2 transition-all flex items-center justify-center ${
-                previewTheme === "dark"
-                  ? "bg-[#050014] border-[#2E146D]"
-                  : previewTheme === "light"
-                  ? "bg-[#f1f5f9] border-slate-300 text-slate-800"
-                  : "bg-[radial-gradient(#2e146d_1px,transparent_1px)] [background-size:16px_16px] bg-[#0c0524] border-[#00E5FF]/40"
+              className={`relative aspect-square max-h-[360px] w-full mx-auto rounded-2xl overflow-hidden border-2 transition-all flex items-center justify-center ${
+                previewTheme === 'dark'
+                  ? 'bg-[#050014] border-[#2E146D]'
+                  : previewTheme === 'light'
+                  ? 'bg-[#f1f5f9] border-slate-300 text-slate-800'
+                  : 'bg-[radial-gradient(#2e146d_1px,transparent_1px)] [background-size:16px_16px] bg-[#0c0524] border-[#00E5FF]/40'
               }`}
             >
               <img
@@ -656,7 +656,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
       {/* GUARDRAIL MODAL */}
       {showGuardrailModal && (
         <div className="fixed inset-0 bg-[#050014]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-[#1A0948] border-2 border-rose-500/80 rounded-2xl max-w-lg w-full p-6 shadow-[0_0_40px_rgba(244,63,94,0.35)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-[#1A0948] border-2 border-rose-500/80 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 shadow-[0_0_40px_rgba(244,63,94,0.35)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.4)]">
                 <ShieldAlert className="w-7 h-7" />

@@ -10,6 +10,7 @@ import {
   Gamepad2,
   ChevronRight,
   ShieldAlert,
+  X,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -19,6 +20,8 @@ interface SidebarProps {
   activeRuleCount: number;
   unlockedCount: number;
   onOpenLivePreview?: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -28,6 +31,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   activeRuleCount,
   unlockedCount,
   onOpenLivePreview,
+  isOpen = false,
+  onClose,
 }) => {
   const navItems = [
     {
@@ -64,33 +69,59 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   return (
-    <aside className="w-72 bg-[#07011E] border-r border-[#2E146D] flex flex-col h-screen shrink-0 relative select-none">
-      {/* Brand Header */}
-      <div className="p-5 border-b border-[#2E146D] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00E5FF] via-[#D900FF] to-[#39FF14] p-0.5 shadow-[0_0_15px_rgba(0,229,255,0.4)]">
-            <div className="w-full h-full bg-[#07011E] rounded-[10px] flex items-center justify-center">
-              <Gamepad2 className="w-5 h-5 text-[#00E5FF]" />
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-sm tracking-widest text-white uppercase font-rajdhani">
-                LIVEOPS
-              </span>
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF007F]/20 text-[#FF007F] border border-[#FF007F]/40">
-                PROD
-              </span>
-            </div>
-            <p className="text-[11px] text-purple-300/60 font-medium">Avatar Engine Backoffice</p>
-          </div>
-        </div>
+    <>
+      {/* Tablet / Mobile Backdrop Overlay */}
+      {isOpen && (
+        <div
+          onClick={onClose}
+          className="fixed inset-0 bg-[#050014]/80 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+        />
+      )}
 
-        {/* Live system pulse */}
-        <div className="flex items-center gap-1.5" title="LiveOps System Online">
-          <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse shadow-[0_0_8px_#39FF14]" />
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-72 bg-[#07011E] border-r border-[#2E146D] flex flex-col h-full shrink-0 select-none transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0 shadow-[0_0_50px_rgba(0,229,255,0.25)]' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
+        {/* Brand Header */}
+        <div className="p-4 sm:p-5 border-b border-[#2E146D] flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00E5FF] via-[#D900FF] to-[#39FF14] p-0.5 shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+              <div className="w-full h-full bg-[#07011E] rounded-[10px] flex items-center justify-center">
+                <Gamepad2 className="w-5 h-5 text-[#00E5FF]" />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-sm tracking-widest text-white uppercase font-rajdhani">
+                  LIVEOPS
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF007F]/20 text-[#FF007F] border border-[#FF007F]/40">
+                  PROD
+                </span>
+              </div>
+              <p className="text-[11px] text-purple-300/60 font-medium">Avatar Engine Backoffice</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* Live system pulse */}
+            <div className="flex items-center gap-1.5" title="LiveOps System Online">
+              <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse shadow-[0_0_8px_#39FF14]" />
+            </div>
+
+            {/* Mobile / Tablet close drawer button */}
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="lg:hidden p-1.5 rounded-lg bg-[#16083D] text-purple-300 hover:text-white border border-[#2E146D]"
+                title="Close sidebar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
 
       {/* Quick LiveOps HUD Status */}
       <div className="px-4 py-3 mx-3 my-3 rounded-xl bg-[#16083D]/90 border border-[#2E146D] flex items-center justify-between">
@@ -223,6 +254,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 };

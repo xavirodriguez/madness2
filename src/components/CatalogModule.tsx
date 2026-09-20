@@ -80,9 +80,9 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Header & Main Control Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#16083D]/90 p-5 rounded-2xl border border-[#2E146D] shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-[#16083D]/90 p-4 sm:p-5 rounded-2xl border border-[#2E146D] shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h2 className="text-xl font-extrabold text-white tracking-wide font-rajdhani uppercase">
@@ -99,10 +99,10 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
         </div>
 
         {/* Primary CTA Button */}
-        <div className="flex items-center gap-3 self-start lg:self-auto">
+        <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
           <button
             onClick={onCreateAvatar}
-            className="btn-cta-green px-5 py-2.5 rounded-full flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold cursor-pointer"
+            className="btn-cta-green px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold cursor-pointer"
           >
             <Plus className="w-4 h-4 stroke-[3]" />+ Create Avatar
           </button>
@@ -110,7 +110,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
       </div>
 
       {/* Filter Toolbar & View Toggle */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[#07011E] p-4 rounded-xl border border-[#2E146D]">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 md:gap-4 bg-[#07011E] p-3.5 sm:p-4 rounded-2xl border border-[#2E146D]">
         {/* Real-time search by slug or i18n_key */}
         <div className="relative flex-1 min-w-[260px]">
           <Search className="w-4 h-4 text-purple-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -136,7 +136,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
           {/* Rarity filter */}
           <div className="flex items-center gap-1.5 bg-[#16083D] px-3 py-1.5 rounded-xl border border-[#2E146D]">
             <Filter className="w-3.5 h-3.5 text-[#00E5FF]" />
-            <span className="text-xs text-purple-300/70">Rarity:</span>
+            <span className="text-xs text-purple-300/70 hidden sm:inline">Rarity:</span>
             <select
               value={rarityFilter}
               onChange={(e) => setRarityFilter(e.target.value)}
@@ -162,7 +162,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
 
           {/* Status filter */}
           <div className="flex items-center gap-1.5 bg-[#16083D] px-3 py-1.5 rounded-xl border border-[#2E146D]">
-            <span className="text-xs text-purple-300/70">Status:</span>
+            <span className="text-xs text-purple-300/70 hidden sm:inline">Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
