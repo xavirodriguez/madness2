@@ -8,7 +8,7 @@ export type AccumulationMode = 'SINGLE_SPIN' | 'CUMULATIVE';
 
 export type UnlockedVia = 'SPIN_REWARD' | 'ADMIN_GIFT' | 'DEFAULT';
 
-export type RuleValidity = 'Vigente' | 'Expirada' | 'Programada';
+export type RuleValidity = 'Active' | 'Expired' | 'Scheduled';
 
 export interface Avatar {
   id: string;

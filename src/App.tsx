@@ -90,8 +90,8 @@ export default function App() {
 
     addToast(
       'success',
-      'Avatar Guardado',
-      `El avatar "${savedAvatar.slug}" (${savedAvatar.rarity}) ha sido actualizado en el catálogo maestro.`
+      'Avatar Saved',
+      `The avatar "${savedAvatar.slug}" (${savedAvatar.rarity}) has been updated in the master catalog.`
     );
     setActiveSection('catalog');
     setEditingAvatar(null);
@@ -111,8 +111,8 @@ export default function App() {
 
     addToast(
       'warning',
-      'Reglas Desactivadas & Avatar Archivado',
-      `Se pausaron todas las reglas activas asociadas al avatar "${avatarId}". El estado ahora es ARCHIVED.`
+      'Rules Deactivated & Avatar Archived',
+      `All active rules linked to avatar "${avatarId}" were paused. Status is now ARCHIVED.`
     );
   };
 
@@ -128,8 +128,8 @@ export default function App() {
 
     addToast(
       'success',
-      'Regla LiveOps Guardada',
-      `Regla "${savedRule.id}" registrada con umbral ${savedRule.threshold_value} USD y drop rate ${savedRule.drop_chance_pct}%.`
+      'LiveOps Rule Saved',
+      `Rule "${savedRule.id}" registered with threshold ${savedRule.threshold_value} USD and drop rate ${savedRule.drop_chance_pct}%.`
     );
   };
 
@@ -142,21 +142,21 @@ export default function App() {
     if (isNowActive) {
       addToast(
         'success',
-        'Regla Activada en Producción',
-        `La regla ${ruleId} (${rule?.name || ''}) ahora evalúa tiradas en vivo.`
+        'Rule Activated in Production',
+        `Rule ${ruleId} (${rule?.name || ''}) now evaluates spins live.`
       );
     } else {
       addToast(
         'info',
-        'Regla Pausada',
-        `La regla ${ruleId} ha sido pausada temporalmente del LiveOps Engine.`
+        'Rule Paused',
+        `Rule ${ruleId} has been temporarily paused from the LiveOps Engine.`
       );
     }
   };
 
   const handleDeleteRule = (ruleId: string) => {
     setRules((prev) => prev.filter((r) => r.id !== ruleId));
-    addToast('warning', 'Regla Eliminada', `La regla ${ruleId} fue removida de la configuración.`);
+    addToast('warning', 'Rule Deleted', `Rule ${ruleId} was removed from the configuration.`);
   };
 
   // Player Support Actions
@@ -185,8 +185,8 @@ export default function App() {
 
     addToast(
       'success',
-      'Admin Gift Concedido',
-      `Se concedió "${grantedAvatar?.slug || avatarId}" al jugador ${targetPlayer?.username || playerId}. Ticket registrado.`
+      'Admin Gift Granted',
+      `Granted "${grantedAvatar?.slug || avatarId}" to player ${targetPlayer?.username || playerId}. Ticket registered.`
     );
   };
 
@@ -203,8 +203,8 @@ export default function App() {
     const avatarObj = avatars.find((a) => a.id === avatarId);
     addToast(
       'info',
-      'Avatar Equipado en Perfil',
-      `El avatar ${avatarObj?.slug || avatarId} ahora está equipado en el cliente de juego.`
+      'Avatar Equipped on Profile',
+      `Avatar ${avatarObj?.slug || avatarId} is now equipped in the game client.`
     );
   };
 
@@ -232,7 +232,7 @@ export default function App() {
 
         {/* Dynamic Module Content Viewport */}
         <main className="flex-1 overflow-y-auto bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,50,220,0.15),rgba(5,0,20,1))]">
-          {/* MÓDULO 1: Catálogo Maestro de Avatares */}
+          {/* MODULE 1: Master Avatar Catalog */}
           {activeSection === 'catalog' && (
             <CatalogModule
               avatars={avatars}
@@ -244,7 +244,7 @@ export default function App() {
             />
           )}
 
-          {/* MÓDULO 2: Editor de Avatar y Carga de Activos */}
+          {/* MODULE 2: Avatar Editor & Asset Uploader */}
           {activeSection === 'editor' && (
             <EditorModule
               editingAvatar={editingAvatar}
@@ -259,7 +259,7 @@ export default function App() {
             />
           )}
 
-          {/* MÓDULO 3: Motor de Reglas LiveOps */}
+          {/* MODULE 3: LiveOps Rules Engine */}
           {activeSection === 'rules' && (
             <RulesEngineModule
               rules={rules}
@@ -271,7 +271,7 @@ export default function App() {
             />
           )}
 
-          {/* MÓDULO 4: Soporte e Inventario de Jugadores */}
+          {/* MODULE 4: Player Support & Inventory */}
           {activeSection === 'support' && (
             <PlayerSupportModule
               players={players}

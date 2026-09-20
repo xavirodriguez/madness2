@@ -4,7 +4,6 @@ import {
   AvatarUnlockRule,
   TriggerType,
   AccumulationMode,
-  RuleValidity,
 } from '../types';
 import { RarityBadge, RuleValidityBadge } from './Badges';
 import {
@@ -21,16 +20,11 @@ import {
   Zap,
   Calendar,
   DollarSign,
-  Percent,
-  CheckCircle2,
-  Trash2,
   Edit2,
-  Layers,
   Search,
   Filter,
-  Flame,
-  ArrowRight,
   TrendingUp,
+  Trash2,
 } from 'lucide-react';
 
 interface RulesEngineModuleProps {
@@ -140,9 +134,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
     const targetAvatar = avatars.find((a) => a.id === avatarId);
     const generatedName =
       ruleName.trim() ||
-      `${triggerType === 'BET_AMOUNT' ? 'Apuesta' : 'Ganancia'} ${formatCurrency(
+      `${triggerType === 'BET_AMOUNT' ? 'Bet' : 'Win'} ${formatCurrency(
         thresholdValue
-      )} (${accumulationMode === 'SINGLE_SPIN' ? 'Tirada Única' : 'Acumulada'}) → ${
+      )} (${accumulationMode === 'SINGLE_SPIN' ? 'Single Spin' : 'Cumulative'}) → ${
         targetAvatar?.slug || 'Avatar'
       }`;
 
@@ -183,7 +177,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
-      {/* FORMULARIO DE CREACIÓN (TARJETA SUPERIOR) */}
+      {/* CREATE FORM CARD */}
       <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-6 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#2E146D] pb-4">
           <div className="flex items-center gap-3">
@@ -194,10 +188,10 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
             </div>
             <div>
               <h2 className="text-lg font-black text-white uppercase font-rajdhani tracking-wide">
-                {editingRuleId ? `Modificar Regla: ${editingRuleId}` : 'Crear Regla de Desbloqueo LiveOps'}
+                {editingRuleId ? `Modify Rule: ${editingRuleId}` : 'Create LiveOps Unlock Rule'}
               </h2>
               <p className="text-xs text-purple-300/60">
-                Configura condiciones en caliente para el algoritmo de drops y triggers de casino.
+                Configure hot parameters for drop algorithms and casino triggers.
               </p>
             </div>
           </div>
@@ -207,21 +201,20 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               onClick={resetForm}
               className="self-start sm:self-auto px-3 py-1.5 rounded-lg bg-[#07011E] text-xs font-bold text-slate-300 hover:text-white border border-[#2E146D]"
             >
-              Cancelar Edición
+              Cancel Editing
             </button>
           )}
         </div>
 
         <form onSubmit={handleSubmitRule} className="space-y-6">
-          {/* Row 1: Selector con autocompletado para asociar a un Avatar & Nombre de Regla */}
+          {/* Row 1: Autocomplete Avatar selector & Rule name */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
             {/* Avatar Selector with Autocomplete */}
             <div className="lg:col-span-6 space-y-1.5 relative">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                Avatar Asociado (`avatar_id`) *
+                Associated Avatar (`avatar_id`) *
               </label>
 
-              {/* Selected Avatar Pill / Dropdown Trigger */}
               <div
                 onClick={() => setIsAvatarDropdownOpen(!isAvatarDropdownOpen)}
                 className="w-full p-2.5 bg-[#07011E] border border-[#2E146D] hover:border-[#00E5FF]/60 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
@@ -242,7 +235,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <span className="text-xs text-purple-400">Selecciona un avatar...</span>
+                  <span className="text-xs text-purple-400">Select an avatar...</span>
                 )}
                 <span className="text-xs text-purple-400">▼</span>
               </div>
@@ -256,7 +249,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                       type="text"
                       value={avatarSearchTerm}
                       onChange={(e) => setAvatarSearchTerm(e.target.value)}
-                      placeholder="Buscar por slug..."
+                      placeholder="Search by slug..."
                       className="w-full pl-8 pr-3 py-1.5 bg-[#07011E] border border-[#2E146D] rounded-lg text-xs text-white focus:outline-none focus:border-[#00E5FF]"
                       autoFocus
                     />
@@ -294,31 +287,30 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               )}
             </div>
 
-            {/* Rule Name / Label */}
+            {/* Rule Name */}
             <div className="lg:col-span-6 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                Nombre Descriptivo de la Regla
+                Descriptive Rule Name
               </label>
               <input
                 type="text"
                 value={ruleName}
                 onChange={(e) => setRuleName(e.target.value)}
-                placeholder="ej. Tirada Suprema Cyber Ronin ($1M Apuesta)"
+                placeholder="e.g. Cyber Ronin Supreme Spin ($1M Bet)"
                 className="w-full px-4 py-2.5 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white focus:outline-none"
               />
               <p className="text-[10px] text-purple-300/50">
-                Opcional: Si se deja vacío, el sistema generará una etiqueta automática normalizada.
+                Optional: If left blank, the system will auto-generate a normalized label.
               </p>
             </div>
           </div>
 
-          {/* Row 2: Trigger Type & Threshold Value Formatted as Currency */}
+          {/* Row 2: Trigger Type & Threshold Value */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-            {/* Segmented control para `trigger_type`: BET_AMOUNT vs WIN_AMOUNT */}
             <div className="md:col-span-6 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5 text-[#00E5FF]" />
-                Tipo de Disparador (`trigger_type`) *
+                Trigger Type (`trigger_type`) *
               </label>
 
               <div className="grid grid-cols-2 gap-2 bg-[#07011E] p-1.5 rounded-xl border border-[#2E146D]">
@@ -332,7 +324,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                   }`}
                 >
                   <DollarSign className="w-3.5 h-3.5" />
-                  BET_AMOUNT (Apuesta)
+                  BET_AMOUNT (Bet)
                 </button>
 
                 <button
@@ -345,19 +337,18 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                   }`}
                 >
                   <TrendingUp className="w-3.5 h-3.5" />
-                  WIN_AMOUNT (Ganancia)
+                  WIN_AMOUNT (Win)
                 </button>
               </div>
             </div>
 
-            {/* Input `threshold_value` formateado automáticamente como moneda base (ej. $1,000,000) */}
             <div className="md:col-span-6 space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Valor Umbral (`threshold_value`) *
+                  Threshold Value (`threshold_value`) *
                 </label>
                 <span className="text-[10px] text-[#FFDE59] font-mono-code font-bold">
-                  Moneda Base USD
+                  Base Currency USD
                 </span>
               </div>
 
@@ -371,17 +362,16 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 />
               </div>
               <p className="text-[10px] text-purple-300/50">
-                Monto mínimo requerido para que el motor evalúe la tirada de dados ({triggerType}).
+                Minimum amount required for the engine to evaluate spin drop odds ({triggerType}).
               </p>
             </div>
           </div>
 
           {/* Row 3: Accumulation Mode & Drop Chance % */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-            {/* Dropdown `accumulation_mode`: SINGLE_SPIN vs CUMULATIVE */}
             <div className="md:col-span-6 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                Modo de Acumulación (`accumulation_mode`) *
+                Accumulation Mode (`accumulation_mode`) *
               </label>
 
               <select
@@ -390,22 +380,21 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 className="w-full px-4 py-2.5 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white font-semibold focus:outline-none cursor-pointer"
               >
                 <option value="SINGLE_SPIN" className="bg-[#07011E]">
-                  SINGLE_SPIN (Tirada Individual Única)
+                  SINGLE_SPIN (Individual Single Spin)
                 </option>
                 <option value="CUMULATIVE" className="bg-[#07011E]">
-                  CUMULATIVE (Suma Acumulada de Sesión/Evento)
+                  CUMULATIVE (Cumulative Session/Event Total)
                 </option>
               </select>
               <p className="text-[10px] text-purple-300/50">
-                `SINGLE_SPIN` premia high-rollers instantáneos; `CUMULATIVE` premia perseverancia y retención.
+                `SINGLE_SPIN` rewards instant high-rollers; `CUMULATIVE` rewards persistence and retention.
               </p>
             </div>
 
-            {/* Input `drop_chance_pct` con formato decimal/porcentaje (ej. 0.0500%) */}
             <div className="md:col-span-6 space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Probabilidad de Drop (`drop_chance_pct`) *
+                  Drop Probability (`drop_chance_pct`) *
                 </label>
                 <span className="text-[10px] text-[#00E5FF] font-mono-code font-bold">
                   {dropChancePct} / 100
@@ -422,18 +411,17 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 />
               </div>
               <p className="text-[10px] text-purple-300/50">
-                Rango válido: 0.0001% a 100.0000%.
+                Valid range: 0.0001% to 100.0000%.
               </p>
             </div>
           </div>
 
-          {/* Row 4: Date Range con DatePicker (Start/End Date en UTC) & Switch Toggle `is_active` */}
+          {/* Row 4: Date Range & Switch Toggle `is_active` */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5 pt-2">
-            {/* Start Date UTC */}
             <div className="md:col-span-4 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-purple-400" />
-                Fecha Inicio (UTC)
+                Start Date (UTC)
               </label>
               <input
                 type="datetime-local"
@@ -443,11 +431,10 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               />
             </div>
 
-            {/* End Date UTC */}
             <div className="md:col-span-4 space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-purple-400" />
-                Fecha Término (UTC)
+                End Date (UTC)
               </label>
               <input
                 type="datetime-local"
@@ -457,10 +444,9 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               />
             </div>
 
-            {/* Switch Toggle `is_active` (On/Off) */}
             <div className="md:col-span-4 space-y-1.5 flex flex-col justify-between">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                Estado Operativo (`is_active`)
+                Operational State (`is_active`)
               </label>
 
               <div className="flex items-center gap-3 bg-[#07011E] p-2.5 rounded-xl border border-[#2E146D]">
@@ -483,10 +469,10 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                   {isActive ? (
                     <span className="text-[#39FF14] flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14] animate-pulse" />
-                      ACTIVA EN PRODUCCIÓN
+                      ACTIVE IN PRODUCTION
                     </span>
                   ) : (
-                    <span className="text-purple-300/70">PAUSADA / INACTIVA</span>
+                    <span className="text-purple-300/70">PAUSED / INACTIVE</span>
                   )}
                 </div>
               </div>
@@ -501,7 +487,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 onClick={resetForm}
                 className="px-4 py-2 rounded-xl bg-[#07011E] text-xs font-bold text-slate-400 hover:text-white border border-[#2E146D]"
               >
-                Descartar
+                Discard
               </button>
             )}
             <button
@@ -509,33 +495,30 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               className="btn-cta-green px-6 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(57,255,20,0.5)]"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
-              {editingRuleId ? 'Actualizar Regla LiveOps' : 'Registrar Regla LiveOps'}
+              {editingRuleId ? 'Update LiveOps Rule' : 'Register LiveOps Rule'}
             </button>
           </div>
         </form>
       </div>
 
-      {/* TABLA DE REGLAS ACTIVAS (PANEL INFERIOR) */}
+      {/* ACTIVE RULES TABLE */}
       <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
-        {/* Table Header & Quick Filters */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#2E146D] pb-3">
           <div>
             <div className="flex items-center gap-2.5">
               <h3 className="text-base font-black text-white uppercase font-rajdhani tracking-wider">
-                Reglas Configurate (`avatar_unlock_rules`)
+                Configured Rules (`avatar_unlock_rules`)
               </h3>
               <span className="text-xs px-2 py-0.5 rounded-full font-mono-code font-bold bg-[#39FF14]/10 text-[#39FF14] border border-[#39FF14]/30">
-                {filteredRules.length} registradas
+                {filteredRules.length} registered
               </span>
             </div>
             <p className="text-xs text-purple-300/60">
-              Alterna switches en vivo para pausar o habilitar drops en tiempo de ejecución.
+              Toggle hot switches live to pause or enable drops at runtime.
             </p>
           </div>
 
-          {/* Filters for Table */}
           <div className="flex flex-wrap items-center gap-2.5">
-            {/* Filter by Avatar */}
             <div className="flex items-center gap-1.5 bg-[#07011E] px-3 py-1.5 rounded-xl border border-[#2E146D]">
               <Filter className="w-3.5 h-3.5 text-[#00E5FF]" />
               <select
@@ -543,7 +526,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                 onChange={(e) => setTableFilterAvatarId(e.target.value)}
                 className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
               >
-                <option value="ALL" className="bg-[#07011E]">Todos los Avatares</option>
+                <option value="ALL" className="bg-[#07011E]">All Avatars</option>
                 {avatars.map((av) => (
                   <option key={av.id} value={av.id} className="bg-[#07011E]">
                     {av.slug}
@@ -552,37 +535,35 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
               </select>
             </div>
 
-            {/* Filter by Validity */}
             <div className="flex items-center gap-1.5 bg-[#07011E] px-3 py-1.5 rounded-xl border border-[#2E146D]">
               <select
                 value={tableValidityFilter}
                 onChange={(e) => setTableValidityFilter(e.target.value)}
                 className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
               >
-                <option value="ALL" className="bg-[#07011E]">Todos los Estados</option>
-                <option value="Vigente" className="bg-[#07011E]">Solo Vigentes</option>
-                <option value="Programada" className="bg-[#07011E]">Solo Programadas</option>
-                <option value="Expirada" className="bg-[#07011E]">Solo Expiradas</option>
-                <option value="ACTIVE" className="bg-[#07011E]">Solo Activas (Switch ON)</option>
-                <option value="INACTIVE" className="bg-[#07011E]">Solo Inactivas (Switch OFF)</option>
+                <option value="ALL" className="bg-[#07011E]">All States</option>
+                <option value="Active" className="bg-[#07011E]">Active Only</option>
+                <option value="Scheduled" className="bg-[#07011E]">Scheduled Only</option>
+                <option value="Expired" className="bg-[#07011E]">Expired Only</option>
+                <option value="ACTIVE" className="bg-[#07011E]">Switch ON Only</option>
+                <option value="INACTIVE" className="bg-[#07011E]">Switch OFF Only</option>
               </select>
             </div>
           </div>
         </div>
 
-        {/* Table representation */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-[#2E146D] bg-[#07011E]/80 text-[11px] font-bold uppercase tracking-wider text-purple-300/70 select-none">
-                <th className="py-3 px-4">Switch Activa</th>
-                <th className="py-3 px-4">ID / Regla</th>
-                <th className="py-3 px-4">Avatar Asociado</th>
-                <th className="py-3 px-4">Disparador & Umbral</th>
-                <th className="py-3 px-4">Acumulación</th>
-                <th className="py-3 px-4">Probabilidad</th>
-                <th className="py-3 px-4">Vigencia (UTC)</th>
-                <th className="py-3 px-4 text-right">Acciones</th>
+                <th className="py-3 px-4">Switch State</th>
+                <th className="py-3 px-4">ID / Rule</th>
+                <th className="py-3 px-4">Associated Avatar</th>
+                <th className="py-3 px-4">Trigger & Threshold</th>
+                <th className="py-3 px-4">Accumulation</th>
+                <th className="py-3 px-4">Probability</th>
+                <th className="py-3 px-4">Validity (UTC)</th>
+                <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#2E146D]/50 text-xs">
@@ -595,7 +576,6 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                     key={rule.id}
                     className="hover:bg-[#1A0948]/70 transition-colors group"
                   >
-                    {/* Live Switch Toggle is_active */}
                     <td className="py-3 px-4">
                       <button
                         type="button"
@@ -605,7 +585,7 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                             ? 'bg-[#39FF14] shadow-[0_0_10px_rgba(57,255,20,0.5)]'
                             : 'bg-[#402B6D]'
                         }`}
-                        title={rule.is_active ? 'Desactivar regla' : 'Activar regla'}
+                        title={rule.is_active ? 'Deactivate rule' : 'Activate rule'}
                       >
                         <div
                           className={`w-4 h-4 rounded-full transition-transform duration-200 ${
@@ -617,13 +597,11 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                       </button>
                     </td>
 
-                    {/* ID & Name */}
                     <td className="py-3 px-4">
                       <div className="font-bold text-white font-mono-code">{rule.id}</div>
                       <div className="text-[11px] text-purple-300/70 truncate max-w-xs">{rule.name}</div>
                     </td>
 
-                    {/* Avatar Linked */}
                     <td className="py-3 px-4">
                       {targetAvatar ? (
                         <div className="flex items-center gap-2.5">
@@ -640,11 +618,10 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                           </div>
                         </div>
                       ) : (
-                        <span className="text-slate-500 italic">Avatar eliminado ({rule.avatar_id})</span>
+                        <span className="text-slate-500 italic">Deleted Avatar ({rule.avatar_id})</span>
                       )}
                     </td>
 
-                    {/* Trigger & Threshold */}
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1.5 font-bold">
                         <span
@@ -662,21 +639,18 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                       </div>
                     </td>
 
-                    {/* Accumulation mode */}
                     <td className="py-3 px-4">
                       <span className="text-xs font-mono-code text-purple-200">
                         {rule.accumulation_mode}
                       </span>
                     </td>
 
-                    {/* Drop Chance % */}
                     <td className="py-3 px-4">
                       <span className="font-mono-code font-bold text-[#00E5FF]">
                         {formatPercentage(rule.drop_chance_pct)}
                       </span>
                     </td>
 
-                    {/* Validity Badge & Dates */}
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <RuleValidityBadge validity={validity} isActive={rule.is_active} />
@@ -687,20 +661,19 @@ export const RulesEngineModule: React.FC<RulesEngineModuleProps> = ({
                       </div>
                     </td>
 
-                    {/* Action buttons (edit, delete) */}
                     <td className="py-3 px-4 text-right">
                       <div className="inline-flex items-center gap-1.5">
                         <button
                           onClick={() => handleStartEdit(rule)}
                           className="p-1.5 rounded-lg bg-[#2B0E68] text-purple-300 hover:text-white hover:bg-[#3D1E6D] transition-colors"
-                          title="Editar regla"
+                          title="Edit rule"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => onDeleteRule(rule.id)}
                           className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:text-white hover:bg-rose-600 transition-colors"
-                          title="Eliminar regla"
+                          title="Delete rule"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>

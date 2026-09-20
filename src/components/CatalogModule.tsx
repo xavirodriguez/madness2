@@ -8,14 +8,9 @@ import {
   Plus,
   Edit3,
   Sliders,
-  Sparkles,
   Eye,
   ArrowUpDown,
-  MoreVertical,
   Filter,
-  RefreshCw,
-  Tag,
-  CheckCircle2,
 } from 'lucide-react';
 
 interface CatalogModuleProps {
@@ -44,7 +39,6 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [sortField, setSortField] = useState<SortField>('updated_at');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
-  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   // Filtered and sorted avatars
   const filteredAvatars = useMemo(() => {
@@ -62,8 +56,8 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
         return matchesSearch && matchesRarity && matchesStatus;
       })
       .sort((a, b) => {
-        let valA = a[sortField];
-        let valB = b[sortField];
+        const valA = a[sortField];
+        const valB = b[sortField];
 
         if (typeof valA === 'string') {
           return sortOrder === 'asc'
@@ -90,14 +84,14 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h2 className="text-xl font-extrabold text-white tracking-wide font-rajdhani uppercase">
-              Catálogo Maestro (`avatars`)
+              Master Catalog (`avatars`)
             </h2>
             <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#00E5FF]/15 text-[#00E5FF] border border-[#00E5FF]/30">
-              {filteredAvatars.length} de {avatars.length} activos
+              {filteredAvatars.length} of {avatars.length} active
             </span>
           </div>
           <p className="text-xs text-purple-300/70">
-            Filtra en tiempo real por slug técnico, clave i18n o estado de despliegue en CDN.
+            Real-time filtering by technical slug, i18n key, or CDN deployment state.
           </p>
         </div>
 
@@ -108,7 +102,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
             className="btn-cta-green px-5 py-2.5 rounded-full flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold cursor-pointer"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
-            + Crear Avatar
+            + Create Avatar
           </button>
         </div>
       </div>
@@ -122,7 +116,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Buscar por slug (ej. cyber_ronin) o clave i18n (AVATAR_NAME_...)"
+            placeholder="Search by slug (e.g. cyber_ronin) or i18n key (AVATAR_NAME_...)"
             className="w-full pl-10 pr-4 py-2 bg-[#16083D] border border-[#2E146D] focus:border-[#00E5FF] focus:outline-none focus:ring-1 focus:ring-[#00E5FF] rounded-xl text-xs text-white placeholder-purple-300/40 transition-all font-mono-code"
           />
           {searchTerm && (
@@ -140,13 +134,13 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
           {/* Rarity filter */}
           <div className="flex items-center gap-1.5 bg-[#16083D] px-3 py-1.5 rounded-xl border border-[#2E146D]">
             <Filter className="w-3.5 h-3.5 text-[#00E5FF]" />
-            <span className="text-xs text-purple-300/70">Rareza:</span>
+            <span className="text-xs text-purple-300/70">Rarity:</span>
             <select
               value={rarityFilter}
               onChange={(e) => setRarityFilter(e.target.value)}
               className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
             >
-              <option value="ALL" className="bg-[#16083D]">Todas</option>
+              <option value="ALL" className="bg-[#16083D]">All</option>
               <option value="COMMON" className="bg-[#16083D]">COMMON (Slate)</option>
               <option value="RARE" className="bg-[#16083D]">RARE (Blue)</option>
               <option value="EPIC" className="bg-[#16083D]">EPIC (Purple)</option>
@@ -156,13 +150,13 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
 
           {/* Status filter */}
           <div className="flex items-center gap-1.5 bg-[#16083D] px-3 py-1.5 rounded-xl border border-[#2E146D]">
-            <span className="text-xs text-purple-300/70">Estado:</span>
+            <span className="text-xs text-purple-300/70">Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer pr-2"
             >
-              <option value="ALL" className="bg-[#16083D]">Todos</option>
+              <option value="ALL" className="bg-[#16083D]">All</option>
               <option value="ACTIVE" className="bg-[#16083D]">ACTIVE (Emerald)</option>
               <option value="DRAFT" className="bg-[#16083D]">DRAFT (Amber)</option>
               <option value="ARCHIVED" className="bg-[#16083D]">ARCHIVED (Rose)</option>
@@ -178,7 +172,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                   ? 'bg-gradient-to-r from-[#00E5FF] to-[#D900FF] text-white shadow-[0_0_10px_rgba(0,229,255,0.4)]'
                   : 'text-purple-300 hover:text-white'
               }`}
-              title="Vista Grid"
+              title="Grid View"
             >
               <LayoutGrid className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Grid</span>
@@ -190,10 +184,10 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                   ? 'bg-gradient-to-r from-[#00E5FF] to-[#D900FF] text-white shadow-[0_0_10px_rgba(0,229,255,0.4)]'
                   : 'text-purple-300 hover:text-white'
               }`}
-              title="Vista Tabla"
+              title="Table View"
             >
               <TableIcon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Tabla</span>
+              <span className="hidden sm:inline">Table</span>
             </button>
           </div>
         </div>
@@ -205,9 +199,9 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
           <div className="w-12 h-12 rounded-full bg-[#2B0E68] text-purple-300 mx-auto flex items-center justify-center">
             <Search className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-white">No se encontraron avatares</h3>
+          <h3 className="text-base font-bold text-white">No avatars found</h3>
           <p className="text-xs text-purple-300/60 max-w-sm mx-auto">
-            Intenta relajar los filtros de rareza/estado o limpia el término de búsqueda.
+            Try adjusting the rarity/status filters or clearing the search term.
           </p>
           <button
             onClick={() => {
@@ -217,18 +211,17 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
             }}
             className="btn-cta-purple px-4 py-1.5 rounded-lg text-xs font-semibold"
           >
-            Restablecer Filtros
+            Reset Filters
           </button>
         </div>
       )}
 
-      {/* VISTA GRID (Tarjetas aspecto 1:1, preview, slug, badges, acciones al pie) */}
+      {/* GRID VIEW */}
       {viewMode === 'grid' && filteredAvatars.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {filteredAvatars.map((avatar) => {
             const hasActiveRules = activeRuleAvatarIds.has(avatar.id);
 
-            // Border color by rarity
             const rarityBorder =
               avatar.rarity === 'LEGENDARY'
                 ? 'border-[#FFDF00]/50 hover:border-[#FFDF00] hover:shadow-[0_0_20px_rgba(255,223,0,0.35)]'
@@ -245,7 +238,6 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
               >
                 {/* 1:1 Aspect Ratio Asset Preview Container */}
                 <div className="relative aspect-square w-full bg-[#050014] overflow-hidden">
-                  {/* Subtle radial glow background based on rarity */}
                   <div
                     className="absolute inset-0 opacity-40 group-hover:opacity-75 transition-opacity"
                     style={{
@@ -260,7 +252,6 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     }}
                   />
 
-                  {/* Asset Image */}
                   <img
                     src={avatar.asset_url}
                     alt={avatar.slug}
@@ -279,7 +270,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     <div className="absolute bottom-2.5 left-2.5 z-10">
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#050014]/90 text-[#39FF14] border border-[#39FF14]/50 shadow-[0_0_8px_rgba(57,255,20,0.4)]">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14] animate-ping" />
-                        LiveOps Activo
+                        LiveOps Active
                       </span>
                     </div>
                   )}
@@ -288,7 +279,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                   <button
                     onClick={() => onPreviewInGame(avatar)}
                     className="absolute bottom-2.5 right-2.5 z-10 p-2 rounded-lg bg-[#050014]/80 backdrop-blur-md text-white hover:text-[#00E5FF] hover:bg-[#07011E] border border-white/20 transition-all opacity-0 group-hover:opacity-100"
-                    title="Simular pantalla de recompensa 9:16"
+                    title="Simulate 9:16 reward screen"
                   >
                     <Eye className="w-3.5 h-3.5" />
                   </button>
@@ -324,21 +315,21 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     </div>
                   )}
 
-                  {/* Actions Footer ("Editar", "Reglas") */}
+                  {/* Actions Footer */}
                   <div className="pt-3 border-t border-[#2E146D] grid grid-cols-2 gap-2 mt-2">
                     <button
                       onClick={() => onEditAvatar(avatar)}
                       className="w-full py-1.5 px-3 rounded-lg bg-[#2B0E68] hover:bg-[#3D1E6D] text-white text-xs font-bold border border-[#8A57D8]/40 hover:border-[#8A57D8] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                     >
                       <Edit3 className="w-3 h-3 text-[#00E5FF]" />
-                      Editar
+                      Edit
                     </button>
                     <button
                       onClick={() => onNavigateToRules(avatar.id)}
                       className="w-full py-1.5 px-3 rounded-lg bg-[#1A0948] hover:bg-[#250F5C] text-purple-200 text-xs font-bold border border-[#2E146D] hover:border-[#00E5FF]/40 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                     >
                       <Sliders className="w-3 h-3 text-[#FF007F]" />
-                      Reglas
+                      Rules
                     </button>
                   </div>
                 </div>
@@ -348,20 +339,20 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
         </div>
       )}
 
-      {/* VISTA TABLA (Filas ordenables con miniatura, slug, name_i18n_key, rareza, estado, fecha de actualización, menú ...) */}
+      {/* TABLE VIEW */}
       {viewMode === 'table' && filteredAvatars.length > 0 && (
         <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] overflow-hidden shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-[#2E146D] bg-[#07011E]/80 text-[11px] font-bold uppercase tracking-wider text-purple-300/70 select-none">
-                  <th className="py-3.5 px-4 w-16">Miniatura</th>
+                  <th className="py-3.5 px-4 w-16">Thumbnail</th>
                   <th
                     onClick={() => handleSort('slug')}
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
-                      Slug Técnico
+                      Technical Slug
                       <ArrowUpDown className="w-3 h-3" />
                     </div>
                   </th>
@@ -370,7 +361,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
-                      Clave i18n
+                      i18n Key
                       <ArrowUpDown className="w-3 h-3" />
                     </div>
                   </th>
@@ -379,7 +370,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
-                      Rareza
+                      Rarity
                       <ArrowUpDown className="w-3 h-3" />
                     </div>
                   </th>
@@ -388,7 +379,7 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
-                      Estado
+                      Status
                       <ArrowUpDown className="w-3 h-3" />
                     </div>
                   </th>
@@ -397,11 +388,11 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                     className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors"
                   >
                     <div className="flex items-center gap-1.5">
-                      Actualización
+                      Updated At
                       <ArrowUpDown className="w-3 h-3" />
                     </div>
                   </th>
-                  <th className="py-3.5 px-4 text-right">Acciones</th>
+                  <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#2E146D]/60 text-xs">
@@ -470,21 +461,21 @@ export const CatalogModule: React.FC<CatalogModuleProps> = ({
                           <button
                             onClick={() => onEditAvatar(avatar)}
                             className="p-1.5 rounded-lg bg-[#2B0E68] text-purple-300 hover:text-white hover:bg-[#3D1E6D] border border-[#8A57D8]/30 transition-colors"
-                            title="Editar avatar"
+                            title="Edit avatar"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => onNavigateToRules(avatar.id)}
                             className="p-1.5 rounded-lg bg-[#16083D] text-purple-300 hover:text-[#FF007F] hover:bg-[#1A0948] border border-[#2E146D] transition-colors"
-                            title="Ver o configurar reglas"
+                            title="View or configure rules"
                           >
                             <Sliders className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => onPreviewInGame(avatar)}
                             className="p-1.5 rounded-lg bg-[#16083D] text-[#FFDE59] hover:bg-[#1A0948] border border-[#2E146D] transition-colors"
-                            title="Simular HUD de desbloqueo"
+                            title="Simulate unlock HUD"
                           >
                             <Eye className="w-3.5 h-3.5" />
                           </button>

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Avatar, Player, PlayerAvatar, UnlockedVia } from '../types';
+import { Avatar, Player, PlayerAvatar } from '../types';
 import { RarityBadge, UnlockedViaBadge } from './Badges';
 import { formatCurrency } from '../lib/formatters';
 import {
   Search,
   Gift,
   User,
-  ShieldCheck,
-  Award,
   Clock,
   Sparkles,
   Coins,
@@ -16,7 +14,6 @@ import {
   CheckCircle2,
   FileText,
   X,
-  ExternalLink,
 } from 'lucide-react';
 
 interface PlayerSupportModuleProps {
@@ -48,7 +45,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
   const handleSearch = (uuidToSearch?: string) => {
     const targetUuid = (uuidToSearch || searchUuid).trim();
     if (!targetUuid) {
-      setSearchError('Por favor introduce un UUID de jugador válido.');
+      setSearchError('Please enter a valid player UUID.');
       return;
     }
 
@@ -60,7 +57,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
       setActivePlayer(found);
       setSearchError(null);
     } else {
-      setSearchError(`No se encontró ningún jugador con el identificador: "${targetUuid}"`);
+      setSearchError(`No player found with identifier: "${targetUuid}"`);
     }
   };
 
@@ -88,7 +85,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
     }
 
     if (!ticketReason.trim() || ticketReason.trim().length < 5) {
-      setReasonError('El motivo de asignación / número de ticket es obligatorio (mínimo 5 caracteres).');
+      setReasonError('The reason / ticket number is required (minimum 5 characters).');
       return;
     }
 
@@ -103,15 +100,15 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
-      {/* Buscador de Jugador (Input por UUID `players.id` + Botón "Buscar") */}
+      {/* Player Search Bar */}
       <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
         <div>
           <h2 className="text-base font-black text-white uppercase font-rajdhani tracking-wider flex items-center gap-2">
             <User className="w-5 h-5 text-[#00E5FF]" />
-            Buscador de Jugador por UUID (`players.id`)
+            Search Player by UUID (`players.id`)
           </h2>
           <p className="text-xs text-purple-300/60 mt-0.5">
-            Inspecciona el inventario en caliente, consulta el avatar equipado y concede activos de compensación.
+            Inspect inventory live, verify equipped avatar, and grant compensation assets.
           </p>
         </div>
 
@@ -126,7 +123,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                 setSearchError(null);
               }}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              placeholder="Introduce UUID (ej. e4a2b918-6c3d-4e21-9a72-f8190c1200a1) o username..."
+              placeholder="Enter UUID (e.g. e4a2b918-6c3d-4e21-9a72-f8190c1200a1) or username..."
               className="w-full pl-10 pr-4 py-3 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs font-mono-code text-white focus:outline-none focus:ring-1 focus:ring-[#00E5FF]"
             />
           </div>
@@ -136,7 +133,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
             className="btn-cta-purple px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
           >
             <Search className="w-4 h-4 text-[#00E5FF]" />
-            Buscar Jugador
+            Search Player
           </button>
         </div>
 
@@ -149,7 +146,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
 
         {/* Quick-pick sample player chips for fast testing */}
         <div className="pt-2 flex flex-wrap items-center gap-2">
-          <span className="text-[11px] text-purple-300/60 font-semibold">Jugadores de prueba:</span>
+          <span className="text-[11px] text-purple-300/60 font-semibold">Sample players:</span>
           {players.map((p) => (
             <button
               key={p.id}
@@ -173,7 +170,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
 
       {activePlayer && (
         <>
-          {/* FICHA DE PERFIL DE JUGADOR */}
+          {/* PLAYER PROFILE CARD */}
           <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 shadow-[0_8px_30px_rgba(5,0,20,0.6)] space-y-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#2E146D]">
               {/* Player Metadata */}
@@ -202,28 +199,28 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                     </div>
                     <div className="flex items-center gap-1.5 text-[#00E5FF] font-mono-code font-bold">
                       <Gem className="w-3.5 h-3.5" />
-                      {activePlayer.balance_gems.toLocaleString()} Gemas
+                      {activePlayer.balance_gems.toLocaleString()} Gems
                     </div>
                     <div className="text-purple-300/70">
-                      Desbloqueados: <span className="text-white font-bold">{currentPlayerInventory.length}</span>
+                      Unlocked: <span className="text-white font-bold">{currentPlayerInventory.length}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Botón primario de soporte: "+ Conceder Avatar (Admin Gift)" */}
+              {/* Primary action: "+ Grant Avatar (Admin Gift)" */}
               <div className="self-start lg:self-auto">
                 <button
                   onClick={() => setIsGiftModalOpen(true)}
                   className="btn-cta-cyan-magenta px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.4)]"
                 >
                   <Gift className="w-4 h-4 stroke-[2.5]" />
-                  + Conceder Avatar (Admin Gift)
+                  + Grant Avatar (Admin Gift)
                 </button>
               </div>
             </div>
 
-            {/* Encabezado mostrando el AVATAR EQUIPADO ACTUALMENTE (`equipped_avatar_id`) */}
+            {/* CURRENTLY EQUIPPED AVATAR (`equipped_avatar_id`) */}
             <div className="bg-[#07011E] rounded-xl p-4 border border-[#00E5FF]/40 shadow-[0_0_20px_rgba(0,229,255,0.15)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="relative">
@@ -242,7 +239,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                 <div className="space-y-1">
                   <div className="text-[10px] uppercase font-extrabold text-[#00E5FF] tracking-wider flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse" />
-                    Avatar Equipado Actualmente (`equipped_avatar_id`)
+                    Currently Equipped Avatar (`equipped_avatar_id`)
                   </div>
                   <div className="text-base font-extrabold text-white font-rajdhani flex items-center gap-2">
                     {equippedAvatar?.slug || activePlayer.equipped_avatar_id}
@@ -250,28 +247,28 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                   </div>
                   <div className="text-xs text-purple-300/70 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-purple-400" />
-                    Equipado desde: <span className="font-mono-code text-purple-200">{activePlayer.equipped_at}</span>
+                    Equipped since: <span className="font-mono-code text-purple-200">{activePlayer.equipped_at}</span>
                   </div>
                 </div>
               </div>
 
               <div className="text-right">
                 <span className="text-[10px] px-3 py-1 rounded-full font-bold bg-[#39FF14]/15 text-[#39FF14] border border-[#39FF14]/40 shadow-[0_0_8px_rgba(57,255,20,0.3)]">
-                  EN CLIENTE MÓVIL
+                  ON MOBILE CLIENT
                 </span>
               </div>
             </div>
           </div>
 
-          {/* TABLA DE INVENTARIO (`player_avatars`) */}
+          {/* INVENTORY TABLE (`player_avatars`) */}
           <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
             <div className="flex items-center justify-between border-b border-[#2E146D] pb-3">
               <div>
                 <h3 className="text-base font-black text-white uppercase font-rajdhani tracking-wider">
-                  Tabla de Inventario (`player_avatars`)
+                  Inventory Table (`player_avatars`)
                 </h3>
                 <p className="text-xs text-purple-300/60">
-                  Registro histórico de avatares desbloqueados por el usuario y reglas asociadas.
+                  Historical log of unlocked avatars and associated rules for this user.
                 </p>
               </div>
               <span className="text-xs font-mono-code px-3 py-1 rounded-full bg-[#07011E] text-purple-200 border border-[#2E146D]">
@@ -284,11 +281,11 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                 <thead>
                   <tr className="border-b border-[#2E146D] bg-[#07011E]/80 text-[11px] font-bold uppercase tracking-wider text-purple-300/70 select-none">
                     <th className="py-3 px-4">Avatar (Thumbnail + Slug)</th>
-                    <th className="py-3 px-4">Rareza</th>
-                    <th className="py-3 px-4">Fecha de Desbloqueo</th>
-                    <th className="py-3 px-4">Vía de Obtención (`unlocked_via`)</th>
-                    <th className="py-3 px-4">Regla Aplicada</th>
-                    <th className="py-3 px-4 text-right">Estado</th>
+                    <th className="py-3 px-4">Rarity</th>
+                    <th className="py-3 px-4">Unlocked At</th>
+                    <th className="py-3 px-4">Source (`unlocked_via`)</th>
+                    <th className="py-3 px-4">Applied Rule</th>
+                    <th className="py-3 px-4 text-right">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#2E146D]/50 text-xs">
@@ -303,7 +300,6 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                           isEquipped ? 'bg-[#00E5FF]/5' : ''
                         }`}
                       >
-                        {/* Avatar Thumbnail + Slug */}
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-3">
                             <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-[#050014] border border-[#2E146D]">
@@ -324,17 +320,14 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                           </div>
                         </td>
 
-                        {/* Rareza */}
                         <td className="py-3 px-4">
                           {avatarObj && <RarityBadge rarity={avatarObj.rarity} size="sm" />}
                         </td>
 
-                        {/* Fecha de Desbloqueo */}
                         <td className="py-3 px-4 font-mono-code text-purple-200">
                           {item.unlocked_at}
                         </td>
 
-                        {/* Vía de Obtención */}
                         <td className="py-3 px-4">
                           <div className="space-y-1">
                             <UnlockedViaBadge via={item.unlocked_via} />
@@ -346,7 +339,6 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                           </div>
                         </td>
 
-                        {/* Regla Aplicada (badge con ID ejecutable) */}
                         <td className="py-3 px-4">
                           {item.applied_rule_id ? (
                             <span className="inline-flex items-center gap-1 font-mono-code font-bold text-xs px-2 py-0.5 rounded bg-[#2B0E68] text-[#00E5FF] border border-[#8A57D8]/50">
@@ -357,12 +349,11 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                           )}
                         </td>
 
-                        {/* Estado / Equip button */}
                         <td className="py-3 px-4 text-right">
                           {isEquipped ? (
                             <span className="text-xs font-bold text-[#39FF14] flex items-center justify-end gap-1">
                               <CheckCircle2 className="w-3.5 h-3.5" />
-                              Equipado
+                              Equipped
                             </span>
                           ) : (
                             onEquipAvatar && (
@@ -370,7 +361,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                                 onClick={() => onEquipAvatar(activePlayer.id, item.avatar_id)}
                                 className="px-2.5 py-1 rounded bg-[#07011E] text-purple-300 hover:text-white border border-[#2E146D] hover:border-[#00E5FF] transition-colors font-semibold text-[11px]"
                               >
-                                Equipar
+                                Equip
                               </button>
                             )
                           )}
@@ -385,11 +376,10 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
         </>
       )}
 
-      {/* MODAL "Conceder Avatar (Admin Gift)" */}
+      {/* MODAL "Grant Avatar (Admin Gift)" */}
       {isGiftModalOpen && activePlayer && (
         <div className="fixed inset-0 bg-[#050014]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <div className="bg-[#1A0948] border-2 border-[#00E5FF]/60 rounded-2xl max-w-lg w-full p-6 shadow-[0_0_40px_rgba(0,229,255,0.3)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
-            {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-[#2E146D] pb-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#00E5FF]/20 text-[#00E5FF] flex items-center justify-center border border-[#00E5FF]/40 shadow-[0_0_12px_rgba(0,229,255,0.3)]">
@@ -397,10 +387,10 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                 </div>
                 <div>
                   <h3 className="text-base font-black text-white uppercase font-rajdhani">
-                    Conceder Avatar (Admin Gift)
+                    Grant Avatar (Admin Gift)
                   </h3>
                   <p className="text-xs text-purple-300/60">
-                    Asignación manual al inventario de <span className="text-white font-bold">{activePlayer.username}</span>
+                    Manual assignment to inventory for <span className="text-white font-bold">{activePlayer.username}</span>
                   </p>
                 </div>
               </div>
@@ -413,10 +403,9 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
             </div>
 
             <form onSubmit={handleConfirmGrant} className="space-y-4">
-              {/* Dropdown para seleccionar un avatar en estado ACTIVE (deshabilitando los que el jugador ya posee) */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Seleccionar Avatar Activo (`status === ACTIVE`) *
+                  Select Active Avatar (`status === ACTIVE`) *
                 </label>
 
                 <select
@@ -425,7 +414,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                   className="w-full px-3 py-2.5 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white focus:outline-none cursor-pointer"
                   required
                 >
-                  <option value="">-- Elige un avatar para conceder --</option>
+                  <option value="">-- Choose an avatar to grant --</option>
                   {activeAvatars.map((av) => {
                     const isAlreadyOwned = ownedAvatarIds.has(av.id);
                     return (
@@ -435,17 +424,16 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                         disabled={isAlreadyOwned}
                         className={isAlreadyOwned ? 'text-slate-600 bg-[#07011E]' : 'bg-[#07011E]'}
                       >
-                        {av.slug} ({av.rarity}) {isAlreadyOwned ? '— [YA ADQUIRIDO]' : ''}
+                        {av.slug} ({av.rarity}) {isAlreadyOwned ? '— [ALREADY OWNED]' : ''}
                       </option>
                     );
                   })}
                 </select>
                 <p className="text-[10px] text-purple-300/50">
-                  Solo se muestran avatares en producción. Los avatares que el usuario ya tiene en su inventario están deshabilitados.
+                  Only production active avatars are displayed. Avatars already owned in player inventory are disabled.
                 </p>
               </div>
 
-              {/* Selected Avatar Quick Preview */}
               {selectedGiftAvatarId && (
                 <div className="p-3 bg-[#07011E] rounded-xl border border-[#2E146D] flex items-center gap-3">
                   {(() => {
@@ -473,11 +461,10 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                 </div>
               )}
 
-              {/* Campo de texto obligatorio (`Textarea`): "Motivo de asignación / Número de Ticket" */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                   <FileText className="w-3.5 h-3.5 text-purple-400" />
-                  Motivo de asignación / Número de Ticket *
+                  Grant Reason / Ticket Number *
                 </label>
                 <textarea
                   rows={3}
@@ -486,7 +473,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                     setTicketReason(e.target.value);
                     setReasonError(null);
                   }}
-                  placeholder="ej. Ticket #SUP-10928: Reembolso por anomalía en torneos o compensación VIP."
+                  placeholder="e.g. Ticket #SUP-10928: Tournament anomaly refund or VIP compensation."
                   className="w-full px-3 py-2 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white focus:outline-none resize-none"
                   required
                 />
@@ -494,18 +481,17 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                   <p className="text-[11px] text-rose-400 font-semibold">{reasonError}</p>
                 )}
                 <p className="text-[10px] text-purple-300/50">
-                  Obligatorio por compliance y registro de auditoría de LiveOps.
+                  Required for compliance and LiveOps audit logs.
                 </p>
               </div>
 
-              {/* Botones de acción: [Cancelar] y [Confirmar Asignación] */}
               <div className="pt-3 border-t border-[#2E146D] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsGiftModalOpen(false)}
                   className="px-4 py-2 rounded-xl bg-[#07011E] text-xs font-bold text-slate-400 hover:text-white border border-[#2E146D] transition-colors"
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   type="submit"
@@ -513,7 +499,7 @@ export const PlayerSupportModule: React.FC<PlayerSupportModuleProps> = ({
                   className="btn-cta-cyan-magenta px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(0,229,255,0.4)]"
                 >
                   <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                  Confirmar Asignación
+                  Confirm Grant
                 </button>
               </div>
             </form>
