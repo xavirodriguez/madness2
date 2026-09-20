@@ -24,20 +24,20 @@ export const Header: React.FC<HeaderProps> = ({ activeSection, onOpenTerminalLog
 
   const sectionTitles: Record<ActiveSection, { title: string; desc: string }> = {
     catalog: {
-      title: 'Catálogo Maestro de Avatares',
-      desc: 'Gestión centralizada de assets, metadata i18n, rarezas y estados del juego.',
+      title: 'Master Avatar Catalog',
+      desc: 'Centralized management of game assets, i18n metadata, rarities, and status states.',
     },
     editor: {
-      title: 'Editor de Avatar & Ingesta S3/CDN',
-      desc: 'Carga de activos gráficos, validación de slugs y guardarraíl de protección LiveOps.',
+      title: 'Avatar Editor & S3/CDN Ingestion',
+      desc: 'Graphical asset uploading, slug validation, and LiveOps guardrail protection.',
     },
     rules: {
-      title: 'Motor de Reglas LiveOps',
-      desc: 'Configuración de algoritmos de desbloqueo, triggers por apuesta/ganancia y probabilidades.',
+      title: 'LiveOps Rules Engine',
+      desc: 'Unlock algorithm configuration, bet/win triggers, and probability rates.',
     },
     support: {
-      title: 'Soporte al Jugador & Concesión de Inventario',
-      desc: 'Inspección de avatares por UUID de jugador y asignación administrativa con ticket de auditoría.',
+      title: 'Player Support & Inventory Granting',
+      desc: 'Avatar inspection by player UUID and administrative assignment with audit ticketing.',
     },
   };
 
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ activeSection, onOpenTerminalLog
           <button
             onClick={onOpenTerminalLogs}
             className="p-2 rounded-lg bg-[#2B0E68] text-purple-300 hover:text-white hover:bg-[#3D1E6D] border border-[#8A57D8]/40 transition-colors"
-            title="Consola de auditoría"
+            title="Audit Console"
           >
             <Terminal className="w-4 h-4" />
           </button>

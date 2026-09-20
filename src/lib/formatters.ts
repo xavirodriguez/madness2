@@ -29,9 +29,9 @@ export function computeRuleValidity(startDateIso: string, endDateIso: string): R
   const start = new Date(startDateIso).getTime();
   const end = new Date(endDateIso).getTime();
 
-  if (now < start) return 'Programada';
-  if (now > end) return 'Expirada';
-  return 'Vigente';
+  if (now < start) return 'Scheduled';
+  if (now > end) return 'Expired';
+  return 'Active';
 }
 
 export function formatDateUtc(isoString: string): string {

@@ -134,30 +134,30 @@ export const RuleValidityBadge: React.FC<{ validity: RuleValidity; isActive: boo
   if (!isActive) {
     return (
       <span className="inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-full bg-[#402B6D]/60 text-purple-300/70 border border-[#402B6D]">
-        Inactiva
+        Inactive
       </span>
     );
   }
 
   switch (validity) {
-    case 'Vigente':
+    case 'Active':
       return (
         <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 font-semibold rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 shadow-[0_0_6px_rgba(16,185,129,0.3)]">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-          Vigente
+          Active
         </span>
       );
-    case 'Programada':
+    case 'Scheduled':
       return (
         <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 font-semibold rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/40">
           <Clock className="w-3 h-3 text-amber-400" />
-          Programada
+          Scheduled
         </span>
       );
-    case 'Expirada':
+    case 'Expired':
       return (
         <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 font-semibold rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40">
-          Expirada
+          Expired
         </span>
       );
   }

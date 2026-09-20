@@ -1,6 +1,6 @@
 {
   "name": "Avatar & LiveOps Backoffice",
-  "description": "Dashboard interactivo para catálogo maestro de avatares, editor con carga de activos, motor de reglas LiveOps y soporte al jugador.",
+  "description": "Interactive dashboard for master avatar catalog, asset uploader editor, LiveOps rules engine, and player support.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
