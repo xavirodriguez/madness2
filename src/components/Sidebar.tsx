@@ -32,31 +32,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItems = [
     {
       id: 'catalog' as ActiveSection,
-      label: 'Catálogo Maestro',
-      subtitle: 'Inventario global & estados',
+      label: 'Master Catalog',
+      subtitle: 'Global inventory & states',
       icon: Layers,
       count: avatarCount,
       badgeColor: 'text-[#00E5FF] bg-[#00E5FF]/10 border-[#00E5FF]/30',
     },
     {
       id: 'editor' as ActiveSection,
-      label: 'Editor de Avatar',
-      subtitle: 'Carga S3/CDN & Guardarraíl',
+      label: 'Avatar Editor',
+      subtitle: 'S3/CDN ingest & guardrails',
       icon: Sparkles,
       highlight: true,
     },
     {
       id: 'rules' as ActiveSection,
-      label: 'Motor de Reglas',
-      subtitle: 'Triggers LiveOps & Probabilidad',
+      label: 'Rules Engine',
+      subtitle: 'LiveOps triggers & odds',
       icon: Sliders,
       count: activeRuleCount,
       badgeColor: 'text-[#39FF14] bg-[#39FF14]/10 border-[#39FF14]/30',
     },
     {
       id: 'support' as ActiveSection,
-      label: 'Soporte al Jugador',
-      subtitle: 'Inventarios & Admin Gifts',
+      label: 'Player Support',
+      subtitle: 'Inventories & admin gifts',
       icon: UserCheck,
       count: unlockedCount,
       badgeColor: 'text-[#FF007F] bg-[#FF007F]/10 border-[#FF007F]/30',
@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Live system pulse */}
-        <div className="flex items-center gap-1.5" title="Sistema LiveOps Online">
+        <div className="flex items-center gap-1.5" title="LiveOps System Online">
           <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse shadow-[0_0_8px_#39FF14]" />
         </div>
       </div>
@@ -99,7 +99,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span className="text-xs font-semibold text-slate-300">Live Engine</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-purple-300/80">Reglas Activas:</span>
+          <span className="text-[11px] text-purple-300/80">Active Rules:</span>
           <span className="text-xs font-bold text-[#39FF14]">{activeRuleCount}</span>
         </div>
       </div>
@@ -107,7 +107,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Navigation Menu */}
       <div className="px-3 py-2 flex-1 space-y-1.5 overflow-y-auto">
         <div className="px-3 pb-1 text-[10px] font-bold tracking-wider text-purple-300/50 uppercase">
-          Módulos Principales
+          Core Modules
         </div>
 
         {navItems.map((item) => {
@@ -177,7 +177,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {onOpenLivePreview && (
           <div className="pt-4">
             <div className="px-3 pb-1 text-[10px] font-bold tracking-wider text-purple-300/50 uppercase">
-              Simulador HUD
+              HUD Simulator
             </div>
             <button
               onClick={onOpenLivePreview}
@@ -189,12 +189,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                    Showcase En Juego
+                    In-Game Showcase
                     <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#FFDF00] text-black font-extrabold">
                       9:16 HUD
                     </span>
                   </div>
-                  <div className="text-[10px] text-[#FFDE59]/80">Pantalla de Recompensa</div>
+                  <div className="text-[10px] text-[#FFDE59]/80">Reward Screen</div>
                 </div>
               </div>
               <ChevronRight className="w-4 h-4 text-[#FF007F] group-hover:translate-x-1 transition-transform" />

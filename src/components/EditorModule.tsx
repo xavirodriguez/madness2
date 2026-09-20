@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarRarity, AvatarStatus, AvatarUnlockRule } from '../types';
 import { RarityBadge, StatusBadge } from './Badges';
 import {
@@ -10,13 +10,9 @@ import {
   AlertTriangle,
   ArrowLeft,
   Save,
-  Trash2,
   Sparkles,
   Link,
-  Eye,
   Sliders,
-  XCircle,
-  HelpCircle,
 } from 'lucide-react';
 
 interface EditorModuleProps {
@@ -53,11 +49,10 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
   const [description, setDescription] = useState(editingAvatar?.description || '');
   const [tagsInput, setTagsInput] = useState(editingAvatar?.tags?.join(', ') || 'LiveOps, Season4');
 
-  // Preview State (Panel Izquierdo: fondo claro/oscuro conmutable)
+  // Preview State
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light' | 'checker'>('dark');
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   // Guardrail Modal State
   const [showGuardrailModal, setShowGuardrailModal] = useState(false);
@@ -86,7 +81,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
       setRarity('RARE');
       setStatus('DRAFT');
       setAssetUrl('https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop&q=80');
-      setDescription('Nuevo avatar en fase de calibración para la próxima temporada de torneos.');
+      setDescription('New avatar under calibration for the upcoming tournament season.');
       setTagsInput('Cyber, Season4, New');
     }
   }, [editingAvatar]);
@@ -111,17 +106,14 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
     setIsDragging(false);
   };
 
-  const simulateUpload = (fileName: string) => {
+  const simulateUpload = (_fileName: string) => {
     setUploadProgress(15);
-    setUploadSuccess(false);
 
     const interval = setInterval(() => {
       setUploadProgress((prev) => {
         if (prev === null) return 15;
         if (prev >= 95) {
           clearInterval(interval);
-          setUploadSuccess(true);
-          // Set simulated CDN asset URL
           const mockAssets = [
             'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80',
             'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80',
@@ -192,21 +184,21 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
           <button
             onClick={onCancel}
             className="p-2 rounded-xl bg-[#07011E] text-purple-300 hover:text-white border border-[#2E146D] transition-colors"
-            title="Volver al Catálogo"
+            title="Return to Catalog"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-black text-white uppercase font-rajdhani">
-                {isEditing ? `Editor: ${editingAvatar?.slug}` : 'Crear Nuevo Avatar'}
+                {isEditing ? `Editor: ${editingAvatar?.slug}` : 'Create New Avatar'}
               </h2>
               <StatusBadge status={status} size="sm" />
             </div>
             <p className="text-xs text-purple-300/60">
               {isEditing
-                ? 'El slug es inmutable para preservar consistencia con clientes de juego.'
-                : 'Define slug permanente, clave de localización i18n y carga de arte para CDN.'}
+                ? 'The slug is immutable to preserve consistency with game clients.'
+                : 'Define permanent slug, i18n localization key, and upload art for CDN.'}
             </p>
           </div>
         </div>
@@ -217,30 +209,30 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
             onClick={onCancel}
             className="px-4 py-2 rounded-xl bg-[#07011E] text-xs font-bold text-slate-400 hover:text-white border border-[#2E146D] transition-colors"
           >
-            Cancelar
+            Cancel
           </button>
           <button
             onClick={handleSubmit}
             className="btn-cta-green px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(57,255,20,0.5)]"
           >
             <Save className="w-4 h-4 stroke-[2.5]" />
-            Guardar Avatar
+            Save Avatar
           </button>
         </div>
       </div>
 
       {/* Main Two-Panel Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* PANEL IZQUIERDO: Zona Drag & Drop S3/CDN con previsualización en vivo (fondo claro/oscuro conmutable) */}
+        {/* LEFT PANEL: Drag & Drop S3/CDN Zone with Live Preview */}
         <div className="lg:col-span-5 space-y-4">
           <div className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-5 space-y-4 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold tracking-wider text-purple-300 uppercase flex items-center gap-1.5">
                 <UploadCloud className="w-4 h-4 text-[#00E5FF]" />
-                Carga de Activo & Preview CDN
+                Asset Upload & CDN Preview
               </span>
 
-              {/* Fondo Claro / Oscuro conmutable */}
+              {/* Theme toggle */}
               <div className="flex items-center bg-[#07011E] p-1 rounded-lg border border-[#2E146D]">
                 <button
                   type="button"
@@ -250,7 +242,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                       ? 'bg-[#2B0E68] text-[#00E5FF] shadow-[0_0_6px_#00e5ff]'
                       : 'text-purple-300 hover:text-white'
                   }`}
-                  title="Fondo Oscuro Espacial"
+                  title="Dark Cosmic Background"
                 >
                   <Moon className="w-3.5 h-3.5" />
                 </button>
@@ -262,7 +254,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                       ? 'bg-slate-200 text-slate-900 shadow-[0_0_6px_white]'
                       : 'text-purple-300 hover:text-white'
                   }`}
-                  title="Fondo Claro Neutro"
+                  title="Light Neutral Background"
                 >
                   <Sun className="w-3.5 h-3.5" />
                 </button>
@@ -274,14 +266,14 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                       ? 'bg-[#FF007F] text-white shadow-[0_0_6px_#ff007f]'
                       : 'text-purple-300 hover:text-white'
                   }`}
-                  title="Checkerboard Alfa"
+                  title="Alpha Checkerboard"
                 >
                   PNG
                 </button>
               </div>
             </div>
 
-            {/* Live 1:1 Preview Box with Theme Swapping */}
+            {/* Live 1:1 Preview Box */}
             <div
               className={`relative aspect-square w-full rounded-2xl overflow-hidden border-2 transition-all flex items-center justify-center ${
                 previewTheme === 'dark'
@@ -291,20 +283,17 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                   : 'bg-[radial-gradient(#2e146d_1px,transparent_1px)] [background-size:16px_16px] bg-[#0c0524] border-[#00E5FF]/40'
               }`}
             >
-              {/* Asset Display */}
               <img
                 src={assetUrl}
                 alt="Avatar preview"
                 className="w-full h-full object-cover object-center transition-transform hover:scale-105 duration-300"
               />
 
-              {/* Rarity & Status floating preview overlays */}
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
                 <RarityBadge rarity={rarity} size="md" showStars={rarity === 'LEGENDARY'} />
                 <StatusBadge status={status} size="md" />
               </div>
 
-              {/* In-game Holographic Vignette rim lights */}
               {previewTheme === 'dark' && (
                 <div
                   className="absolute inset-0 pointer-events-none"
@@ -321,12 +310,11 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                 />
               )}
 
-              {/* Uploading indicator */}
               {uploadProgress !== null && (
                 <div className="absolute inset-0 bg-[#07011E]/90 backdrop-blur-md flex flex-col items-center justify-center p-6 space-y-3 z-20">
                   <div className="w-12 h-12 rounded-full border-3 border-[#00E5FF] border-t-transparent animate-spin" />
                   <p className="text-xs font-bold text-white font-rajdhani uppercase tracking-wider">
-                    Subiendo activo a AWS S3 / CloudFront...
+                    Uploading asset to AWS S3 / CloudFront...
                   </p>
                   <div className="w-full max-w-xs bg-[#050014] h-2 rounded-full overflow-hidden border border-[#2E146D]">
                     <div
@@ -362,19 +350,19 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                   <UploadCloud className="w-5 h-5" />
                 </div>
                 <div className="text-xs font-bold text-white">
-                  Arrastra aquí tu activo o <span className="text-[#00E5FF] underline">haz clic para examinar</span>
+                  Drag asset here or <span className="text-[#00E5FF] underline">click to browse</span>
                 </div>
                 <p className="text-[10px] text-purple-300/60">
-                  PNG 24-bit con transparencia o WebP (1024x1024px recomendado). Simula push directo a S3 bucket.
+                  24-bit PNG with transparency or WebP (1024x1024px recommended). Simulates direct push to S3 bucket.
                 </p>
               </label>
             </div>
 
-            {/* CDN URL Direct Input / Preset Selection */}
+            {/* CDN URL Direct Input */}
             <div className="space-y-1.5 pt-2">
               <label className="text-[11px] font-bold text-purple-300 uppercase tracking-wide flex items-center gap-1.5">
                 <Link className="w-3 h-3 text-[#00E5FF]" />
-                URL de Activo (S3 / CDN)
+                Asset URL (S3 / CDN)
               </label>
               <input
                 type="url"
@@ -387,36 +375,36 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
           </div>
         </div>
 
-        {/* PANEL DERECHO: Formulario de Configuración Técnica */}
+        {/* RIGHT PANEL: Technical Form */}
         <div className="lg:col-span-7 space-y-5">
           <form onSubmit={handleSubmit} className="bg-[#16083D] rounded-2xl border border-[#2E146D] p-6 space-y-5 shadow-[0_8px_30px_rgba(5,0,20,0.6)]">
             <div className="border-b border-[#2E146D] pb-3 flex items-center justify-between">
               <h3 className="text-sm font-extrabold text-white uppercase font-rajdhani tracking-wider flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#FFDE59]" />
-                Metadatos y Despliegue de Avatar
+                Avatar Metadata & Deployment
               </h3>
-              <span className="text-[11px] text-purple-300/60">Campos obligatorios *</span>
+              <span className="text-[11px] text-purple-300/60">Required fields *</span>
             </div>
 
-            {/* Input `slug` (Solo lectura en edición) */}
+            {/* Input `slug` */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Slug Técnico *
+                  Technical Slug *
                   {isEditing && (
                     <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 border border-slate-700">
-                      Solo lectura
+                      Read-only
                     </span>
                   )}
                 </label>
-                <span className="text-[10px] text-purple-300/60 font-mono-code">Identificador único en DB</span>
+                <span className="text-[10px] text-purple-300/60 font-mono-code">Unique DB Identifier</span>
               </div>
               <input
                 type="text"
                 value={slug}
                 readOnly={isEditing}
                 onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))}
-                placeholder="ej. cyber_ronin_x"
+                placeholder="e.g. cyber_ronin_x"
                 className={`w-full px-4 py-2.5 rounded-xl text-xs font-mono-code transition-all ${
                   isEditing
                     ? 'bg-[#07011E]/70 text-slate-400 border border-[#2E146D] cursor-not-allowed select-none'
@@ -425,30 +413,29 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
               />
               <p className="text-[10px] text-purple-300/50">
                 {isEditing
-                  ? '⚠️ No editable en modo modificación para prevenir desincronizaciones con clientes iOS/Android.'
-                  : 'Solo minúsculas, números y guiones bajos (_). Usado en tablas `avatars` y `player_avatars`.'}
+                  ? '⚠️ Non-editable in update mode to prevent desynchronization with iOS/Android game clients.'
+                  : 'Lowercase letters, numbers, and underscores (_) only. Used in `avatars` and `player_avatars` tables.'}
               </p>
             </div>
 
-            {/* Input `name_i18n_key` con prefijo fijo `AVATAR_NAME_` y validación visual */}
+            {/* Input `name_i18n_key` */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Clave de Localización (i18n Key) *
+                  Localization Key (i18n Key) *
                 </label>
                 {isKeySuffixValid && nameKeySuffix.trim() ? (
                   <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold">
-                    <CheckCircle2 className="w-3 h-3" /> Clave válida
+                    <CheckCircle2 className="w-3 h-3" /> Valid Key
                   </span>
                 ) : (
                   <span className="text-[10px] text-amber-400 flex items-center gap-1 font-semibold">
-                    <AlertTriangle className="w-3 h-3" /> Solo mayúsculas, números y '_'
+                    <AlertTriangle className="w-3 h-3" /> Uppercase, numbers, and '_' only
                   </span>
                 )}
               </div>
 
               <div className="flex items-center rounded-xl bg-[#07011E] border border-[#2E146D] focus-within:border-[#00E5FF] focus-within:ring-1 focus-within:ring-[#00E5FF] overflow-hidden">
-                {/* Fixed Prefix: AVATAR_NAME_ */}
                 <span className="px-3.5 py-2.5 bg-[#2B0E68]/60 text-purple-300 text-xs font-mono-code font-bold border-r border-[#2E146D] select-none">
                   AVATAR_NAME_
                 </span>
@@ -461,16 +448,16 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                 />
               </div>
               <div className="text-[10px] font-mono-code text-purple-300/70 bg-[#07011E]/40 px-3 py-1.5 rounded-lg border border-[#2E146D]/60 flex items-center justify-between">
-                <span>Resultado compuesto:</span>
+                <span>Composite Result:</span>
                 <span className="text-[#00E5FF] font-bold">{fullI18nKey}</span>
               </div>
             </div>
 
-            {/* Nombre Display y Descripción */}
+            {/* Display Name & Rarity */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                  Nombre para Mostrar
+                  Display Name
                 </label>
                 <input
                   type="text"
@@ -481,10 +468,9 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                 />
               </div>
 
-              {/* Dropdown `rarity` (COMMON, RARE, EPIC, LEGENDARY) */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  Rareza *
+                  Rarity *
                 </label>
                 <div className="relative">
                   <select
@@ -501,22 +487,21 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
               </div>
             </div>
 
-            {/* Segmented Control / Radio para `status` (DRAFT, ACTIVE, ARCHIVED) */}
+            {/* Segmented Control for `status` */}
             <div className="space-y-2 pt-2">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                  Estado de Disponibilidad (`status`) *
+                  Availability Status (`status`) *
                 </label>
                 {offendingRules.length > 0 && (
                   <span className="text-[10px] text-amber-400 flex items-center gap-1 font-semibold">
                     <ShieldAlert className="w-3 h-3" />
-                    {offendingRules.length} regla(s) LiveOps activa(s)
+                    {offendingRules.length} active LiveOps rule(s)
                   </span>
                 )}
               </div>
 
               <div className="grid grid-cols-3 gap-2 bg-[#07011E] p-1.5 rounded-xl border border-[#2E146D]">
-                {/* DRAFT */}
                 <button
                   type="button"
                   onClick={() => handleStatusChange('DRAFT')}
@@ -530,7 +515,6 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                   DRAFT
                 </button>
 
-                {/* ACTIVE */}
                 <button
                   type="button"
                   onClick={() => handleStatusChange('ACTIVE')}
@@ -544,7 +528,6 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                   ACTIVE
                 </button>
 
-                {/* ARCHIVED */}
                 <button
                   type="button"
                   onClick={() => handleStatusChange('ARCHIVED')}
@@ -560,16 +543,16 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
               </div>
             </div>
 
-            {/* Descripción Lore / Backoffice Notes */}
+            {/* Description / Lore */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                Descripción / Lore del Avatar
+                Avatar Description / Lore
               </label>
               <textarea
                 rows={3}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Texto descriptivo para la ficha de recompensa in-game..."
+                placeholder="Descriptive text for the in-game reward card..."
                 className="w-full px-3 py-2 bg-[#07011E] border border-[#2E146D] focus:border-[#00E5FF] rounded-xl text-xs text-white focus:outline-none resize-none"
               />
             </div>
@@ -577,7 +560,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
             {/* Tags */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-                Etiquetas / Categorías (separadas por coma)
+                Tags / Categories (comma separated)
               </label>
               <input
                 type="text"
@@ -588,53 +571,50 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
               />
             </div>
 
-            {/* Submit & Cancel Buttons */}
+            {/* Submit & Cancel */}
             <div className="pt-4 border-t border-[#2E146D] flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={onCancel}
                 className="px-4 py-2 rounded-xl bg-[#07011E] text-xs font-bold text-slate-400 hover:text-white border border-[#2E146D]"
               >
-                Descartar Cambios
+                Discard Changes
               </button>
               <button
                 type="submit"
                 className="btn-cta-green px-6 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(57,255,20,0.5)]"
               >
                 <Save className="w-4 h-4 stroke-[2.5]" />
-                Guardar Avatar en Catálogo
+                Save Avatar to Catalog
               </button>
             </div>
           </form>
         </div>
       </div>
 
-      {/* MODAL DE GUARDARRAÍL INTERACTIVO */}
-      {/* Al intentar seleccionar ARCHIVED, si hay reglas activas, muestra un diálogo de alerta bloqueante */}
+      {/* GUARDRAIL MODAL */}
       {showGuardrailModal && (
         <div className="fixed inset-0 bg-[#050014]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <div className="bg-[#1A0948] border-2 border-rose-500/80 rounded-2xl max-w-lg w-full p-6 shadow-[0_0_40px_rgba(244,63,94,0.35)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
-            {/* Alert Header */}
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.4)]">
                 <ShieldAlert className="w-7 h-7" />
               </div>
               <div className="space-y-1">
                 <h3 className="text-base font-black text-white uppercase font-rajdhani tracking-wide">
-                  Guardarraíl de Seguridad LiveOps
+                  LiveOps Security Guardrail
                 </h3>
                 <p className="text-xs text-rose-300 font-bold leading-relaxed">
-                  "No se puede archivar un avatar con reglas LiveOps activas. Desactiva las reglas asociadas primero."
+                  "Cannot archive an avatar with active LiveOps rules. Deactivate linked rules first."
                 </p>
               </div>
             </div>
 
-            {/* List of Offending Active Rules */}
             <div className="bg-[#07011E] rounded-xl p-4 border border-rose-500/30 space-y-2.5">
               <div className="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-                <span>Reglas activas vinculadas a este avatar:</span>
+                <span>Active rules linked to this avatar:</span>
                 <span className="text-rose-400 font-mono-code font-bold">
-                  {offendingRules.length} BLOQUEANTES
+                  {offendingRules.length} BLOCKING
                 </span>
               </div>
               <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
@@ -648,7 +628,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                       <div className="text-[11px] text-purple-300/70 truncate max-w-[260px]">{rule.name}</div>
                     </div>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold">
-                      ACTIVA
+                      ACTIVE
                     </span>
                   </div>
                 ))}
@@ -656,17 +636,16 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
             </div>
 
             <p className="text-xs text-purple-300/80 leading-relaxed">
-              Archivar este avatar provocaría errores de ejecución o desbordamiento en el motor de probabilidad si los jugadores cumplen los requisitos de tirada en clientes móviles.
+              Archiving this avatar would cause execution errors or probability overflow if players fulfill spin requirements in mobile clients.
             </p>
 
-            {/* Guardrail Actions */}
             <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setShowGuardrailModal(false)}
                 className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#07011E] text-xs font-bold text-slate-300 hover:text-white border border-[#2E146D] transition-colors"
               >
-                Volver y Mantener Estado
+                Go Back & Keep Status
               </button>
 
               {onDeactivateRulesAndArchive && editingAvatar && (
@@ -680,7 +659,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                   className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow-[0_0_15px_rgba(244,63,94,0.5)] transition-all flex items-center justify-center gap-2"
                 >
                   <AlertTriangle className="w-3.5 h-3.5" />
-                  Desactivar Reglas y Archivar
+                  Deactivate Rules & Archive
                 </button>
               )}
 
@@ -694,7 +673,7 @@ export const EditorModule: React.FC<EditorModuleProps> = ({
                   className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#2B0E68] hover:bg-[#3D1E6D] text-white text-xs font-bold border border-[#8A57D8] transition-all flex items-center justify-center gap-1.5"
                 >
                   <Sliders className="w-3.5 h-3.5 text-[#00E5FF]" />
-                  Revisar en Motor de Reglas
+                  Review in Rules Engine
                 </button>
               )}
             </div>

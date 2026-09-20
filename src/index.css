@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Superficies */
+  /* Surfaces */
   --bg-app-space: #050014;
   --bg-app-space-alt: #07011e;
   --bg-modal-overlay: rgba(5, 0, 20, 0.85);
@@ -10,12 +10,12 @@
   --row-separator: #2e146d;
   --pill-dark: #0a031f;
 
-  /* Bordes / stroke */
+  /* Borders / strokes */
   --stroke-neon-cyan: #00e5ff;
   --stroke-neon-magenta: #ff007f;
   --stroke-panel: rgba(0, 229, 255, 0.4);
 
-  /* Acentos */
+  /* Accents */
   --gold-reward: #ffde59;
   --gold-reward-alt: #ffdf00;
   --gold-stroke: #5a3800;
@@ -24,7 +24,7 @@
   --alert-red: #ff3355;
   --status-disabled: #402b6d;
 
-  /* Gradientes */
+  /* Gradients */
   --grad-cta-primary: linear-gradient(180deg, #39ff14 0%, #00c800 50%, #006600 100%);
   --grad-cta-primary-alt: linear-gradient(180deg, #39ff14 0%, #00a82d 100%);
   --grad-cta-monetize: linear-gradient(135deg, #00e5ff 0%, #d900ff 100%);
